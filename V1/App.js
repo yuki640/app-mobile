@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import * as Font from "expo-font";
@@ -10,7 +10,7 @@ import {
 import AppNavigator from "./component/AppNavigator";
 
 export default function App() {
-  /*Laisse en place le splash creen pendant qu'on récupère les ressources nécessaires */
+  /* Laisse en place le splash screen pendant qu'on récupère les ressources nécessaires */
   SplashScreen.preventAutoHideAsync();
 
   const [isReady, setIsReady] = useState(false);
@@ -18,8 +18,15 @@ export default function App() {
   useEffect(() => {
     async function prepare() {
       try {
-        //Chargement des fonts
+        // Chargement de la police AntDesign
+        await Font.loadAsync({
+          AntDesign: require("@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/AntDesign.ttf"),
+        });
         await Font.loadAsync({ Inter_400Regular, Inter_600SemiBold });
+        // Chargement de la police Entypo
+        await Font.loadAsync({
+          Entypo: require("@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Entypo.ttf"),
+        });
       } catch (e) {
         console.warn(e);
       } finally {
@@ -37,6 +44,20 @@ export default function App() {
 
   if (!isReady) {
     return null;
+  }
+
+  // Vérification de la disponibilité des icônes
+  const isAntDesignLoaded = Font.isLoaded("AntDesign");
+  const isEntypoLoaded = Font.isLoaded("Entypo");
+
+  if (!isAntDesignLoaded || !isEntypoLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>
+          Les icônes AntDesign et Entypo n'ont pas été chargées correctement.
+        </Text>
+      </View>
+    );
   }
 
   return (
