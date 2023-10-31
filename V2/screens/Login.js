@@ -52,10 +52,8 @@ export default function Login() {
         console.log(data.token);
         // Vérifiez d'abord si data.token est défini
         if (data.token) {
-          // Convertissez data.token en chaîne de caractères
-          const tokenString = JSON.stringify(data.token);
           // Stockez le token dans le SecureStorage
-          await saveToken("token", tokenString);
+          await saveToken("token", data.token);
           // //Redirection vers la page qu'on souhaite
           navigation.navigate("Home");
         } else {

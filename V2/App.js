@@ -3,11 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import * as Font from "expo-font";
-import {
-  useFonts,
-  Inter_400Regular,
-  Inter_600SemiBold,
-} from "@expo-google-fonts/inter";
+import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
 import AppNavigator from "./component/AppNavigator";
 
 export default function App() {
@@ -15,19 +11,19 @@ export default function App() {
   SplashScreen.preventAutoHideAsync();
 
   const [isReady, setIsReady] = useState(false);
-  async function retrieveToken() {
-    try {
-      const token = await SecureStore.getItemAsync("token");
-      if (token) {
-        // Faites quelque chose avec le token, par exemple, ajoutez-le aux en-têtes des requêtes.
-        console.log("Token récupéré au lancement de l'application :", token);
-      } else {
-        console.log("Aucun token n'a été trouvé dans le SecureStore.");
-      }
-    } catch (error) {
-      console.error("Erreur lors de la récupération du token :", error);
-    }
-  }
+  // async function retrieveToken() {
+  //   try {
+  //     const token = await SecureStore.getItemAsync("token");
+  //     if (token) {
+  //       // Faites quelque chose avec le token, par exemple, ajoutez-le aux en-têtes des requêtes.
+  //       console.log("Token récupéré au lancement de l'application :", token);
+  //     } else {
+  //       console.log("Aucun token n'a été trouvé dans le SecureStore.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Erreur lors de la récupération du token :", error);
+  //   }
+  // }
 
   useEffect(() => {
     async function prepare() {
@@ -42,7 +38,7 @@ export default function App() {
           Entypo: require("@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Entypo.ttf"),
         });
         // Appel de la fonction pour récupérer le token
-        retrieveToken();
+        // await retrieveToken();
       } catch (e) {
         console.warn(e);
       } finally {

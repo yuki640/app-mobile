@@ -82,4 +82,21 @@ export const GlobalStyles = StyleSheet.create({
   titleNav: {
     textAlign: "center",
   },
+  textCompte: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333", // Couleur de texte
+    marginBottom: 10,
+  },
+  profileCard: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
+  },
 });
