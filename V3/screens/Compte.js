@@ -29,15 +29,15 @@ export default function Compte() {
       console.log("Données récupérées avec succès depuis l'API");
       const jsonData = await newData.json();
 
-      console.log("Données à stocker dans AsyncStorage : ", jsonData);
+      //console.log("Données à stocker dans AsyncStorage : ", jsonData);
       await AsyncStorage.setItem("data-compte", JSON.stringify(jsonData));
 
       console.log("Données stockées avec succès dans AsyncStorage");
       // Met à jour l'état de data avec les nouvelles données
-      console.log(
-        "Mise à jour de l'état de data avec les nouvelles données : ",
-        jsonData,
-      );
+      // console.log(
+      //   "Mise à jour de l'état de data avec les nouvelles données : ",
+      //   jsonData,
+      // );
       setData(jsonData);
       setIsLoading(false); // Les données ont été chargées
     } catch (error) {
@@ -52,11 +52,11 @@ export default function Compte() {
       console.log("Début de la récupération des données locales");
       const storedData = await AsyncStorage.getItem("data-compte");
       if (storedData !== null) {
-        const parsedData = JSON.parse(storedData); // Désérialisez les données
-        console.log(
-          "Données récupérées avec succès depuis AsyncStorage : ",
-          parsedData,
-        ); // Ajoutez cette ligne
+        const parsedData = JSON.parse(storedData); // Désérialisation des données
+        // console.log(
+        //   "Données récupérées avec succès depuis AsyncStorage : ",
+        //   parsedData,
+        // );
         setData(parsedData);
         setIsLoading(false); // Les données ont été chargées depuis le stockage local
       } else {
@@ -64,14 +64,22 @@ export default function Compte() {
         setIsLoading(false);
       }
     } catch (error) {
-      setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
+      setIsLoading(false); // Arrête l'indicateur de chargement en cas d'erreur
     }
   };
   const removeToken = async () => {
     try {
-      await SecureStore.deleteItemAsync("token");
-      console.log("Token supprimé avec succès");
-      navigation.reset("Home");
+      const storedToken = await SecureStore.getItemAsync("token");
+      if (storedToken) {
+        await SecureStore.deleteItemAsync("token");
+        console.log("Token supprimé avec succès");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Home" }],
+        });
+      } else {
+        console.log("Le token n'a pas été trouvé.");
+      }
     } catch (error) {
       console.error("Erreur lors de la suppression du token :", error);
     }
@@ -124,7 +132,7 @@ export default function Compte() {
     <View>
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
-      ) : data && data.length > 0 ? (
+      ) : data ? (
         <FlatList
           data={data}
           renderItem={renderProfiles}

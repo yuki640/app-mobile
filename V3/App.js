@@ -11,6 +11,48 @@ export default function App() {
   SplashScreen.preventAutoHideAsync();
 
   const [isReady, setIsReady] = useState(false);
+  const [token, setToken] = useState(null);
+
+  // Fonction pour récupérer le token depuis SecureStore
+  const RetrieveToken = async () => {
+    try {
+      const storedToken = await SecureStore.getItemAsync("token");
+      if (storedToken) {
+        // Envoi de la requête à l'API pour vérifier le token
+        const response = await fetch(
+          "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/verify-token",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token: storedToken }),
+          },
+        );
+
+        if (response.status === 200) {
+          // Le token est valide
+          console.log("token valide et non-expiré");
+          setToken(storedToken);
+        } else if (response.status === 401) {
+          // Le token est expiré ou invalide, donc on le supprime
+          const responseSupp = await SecureStore.deleteItemAsync("token");
+          if (!responseSupp) {
+            console.error("Le token n'a pas été supprimé du SecureStore");
+          }
+        } else {
+          console.error(
+            "La requête de vérification du token a échoué, connexion au serveur indisponible",
+          );
+        }
+      }
+    } catch (error) {
+      console.error(
+        "Erreur lors du processus de vérification du token ",
+        error,
+      );
+    }
+  };
 
   useEffect(() => {
     async function prepare() {
@@ -25,7 +67,7 @@ export default function App() {
           Entypo: require("@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Entypo.ttf"),
         });
         // Appel de la fonction pour récupérer le token
-        // await retrieveToken();
+        await RetrieveToken();
       } catch (e) {
         console.warn(e);
       } finally {

@@ -14,6 +14,7 @@ import Login from "../screens/Login";
 import Compte from "../screens/Compte";
 import Navbar from "./Navbar";
 import FicheProduit from "../screens/FicheProduit";
+import { GlobalStyles } from "../styles/AppStyles";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -32,10 +33,14 @@ function AppNavigator() {
     };
     getToken();
   }, []);
-  function ProduitStack() {
+  function ProduitsTous() {
     return (
       <Stack.Navigator initialRouteName={Produits}>
-        <Stack.Screen name="Liste des Produits" component={Produits} />
+        <Stack.Screen
+          name="Liste des Produits"
+          component={Produits}
+          initialParams={{ produitType: "Tous" }}
+        />
         <Stack.Screen
           name="FicheProduit"
           component={FicheProduit}
@@ -44,6 +49,39 @@ function AppNavigator() {
       </Stack.Navigator>
     );
   }
+  function ProduitsNouveaux() {
+    return (
+      <Stack.Navigator initialRouteName={Produits}>
+        <Stack.Screen
+          name="Liste des Produits"
+          component={Produits}
+          initialParams={{ produitType: "New" }}
+        />
+        <Stack.Screen
+          name="FicheProduit"
+          component={FicheProduit}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    );
+  }
+  function ProduitsPromotion() {
+    return (
+      <Stack.Navigator initialRouteName={Produits}>
+        <Stack.Screen
+          name="Liste des Produits"
+          component={Produits}
+          initialParams={{ produitType: "Promo" }}
+        />
+        <Stack.Screen
+          name="FicheProduit"
+          component={FicheProduit}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    );
+  }
+
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
@@ -56,9 +94,23 @@ function AppNavigator() {
         />
         <Drawer.Screen
           name="Produits"
-          component={ProduitStack}
+          component={ProduitsTous}
           options={() => ({
             header: (props) => <Navbar {...props} title="Produits" />,
+          })}
+        />
+        <Drawer.Screen
+          name="Nouveautés"
+          component={ProduitsNouveaux}
+          options={() => ({
+            header: (props) => <Navbar {...props} title="Nouveautés" />,
+          })}
+        />
+        <Drawer.Screen
+          name="Promotions"
+          component={ProduitsPromotion}
+          options={() => ({
+            header: (props) => <Navbar {...props} title="Nouveautés" />,
           })}
         />
         {!token && (

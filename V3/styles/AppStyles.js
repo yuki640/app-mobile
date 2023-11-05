@@ -108,4 +108,12 @@ export const GlobalStyles = StyleSheet.create({
     padding: 11,
     justifyContent: "center",
   },
+  drawerStyle: {
+    backgroundColor: "#f2f2f2", // Couleur de fond du Drawer
+    width: 240, // Largeur du Drawer
+  },
+  contentContainerStyle: {
+    flex: 1, // Utilisez toute la hauteur disponible
+    padding: 20, // Espacement intérieur
+  },
 });
