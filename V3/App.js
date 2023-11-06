@@ -11,7 +11,6 @@ export default function App() {
   SplashScreen.preventAutoHideAsync();
 
   const [isReady, setIsReady] = useState(false);
-  const [token, setToken] = useState(null);
 
   // Fonction pour récupérer le token depuis SecureStore
   const RetrieveToken = async () => {
