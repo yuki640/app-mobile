@@ -117,8 +117,6 @@ export default function Produits({ route }) {
           data={data}
           renderItem={renderProfiles}
           keyExtractor={(item) => item.reference}
-          initialNumToRender={10} // Limite le nombre d'éléments affichés initialement à 10
-          onEndReachedThreshold={0.1} // Charge plus d'éléments lorsque vous atteignez les 10% restants
         />
       ) : (
         <Text>Aucune donnée disponible.</Text>

@@ -3,6 +3,7 @@ import { TouchableOpacity, Text, TextInput, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { useNavigation } from "@react-navigation/native";
 import { GlobalStyles } from "../styles/AppStyles";
+
 export default function Login() {
   const [email, setMail] = useState();
   const [motdepasse, setMotdepasse] = useState("");
@@ -46,8 +47,6 @@ export default function Login() {
       }
       if (response.ok) {
         const data = await response.json();
-        const token = data.token;
-        console.log(data);
 
         console.log(data.token);
         // Vérifiez d'abord si data.token est défini
@@ -94,6 +93,3 @@ export default function Login() {
     </View>
   );
 }
-
-// // Récupérer la donné stockée dans le SecureStore
-// let result = await SecureStore.getItemAsync("token");

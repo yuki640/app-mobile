@@ -18,19 +18,19 @@ export default function Produits() {
       console.log("Données récupérées avec succès depuis l'API");
       const jsonData = await newData.json();
 
-      console.log("Données à stocker dans AsyncStorage : ", jsonData);
+      //console.log("Données à stocker dans AsyncStorage : ", jsonData);
       await AsyncStorage.setItem("data", JSON.stringify(jsonData));
 
-      console.log("Données stockées avec succès dans AsyncStorage");
+      //console.log("Données stockées avec succès dans AsyncStorage");
       // Met à jour l'état de data avec les nouvelles données
-      console.log(
-        "Mise à jour de l'état de data avec les nouvelles données : ",
-        jsonData,
-      );
+      // console.log(
+      //   "Mise à jour de l'état de data avec les nouvelles données : ",
+      //   jsonData,
+      // );
       setData(jsonData);
       setIsLoading(false); // Les données ont été chargées
     } catch (error) {
-      console.error("Erreur lors de la récupération des données", error);
+      //console.error("Erreur lors de la récupération des données", error);
       setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
     }
   };
@@ -42,10 +42,10 @@ export default function Produits() {
       const storedData = await AsyncStorage.getItem("data");
       if (storedData !== null) {
         const parsedData = JSON.parse(storedData); // Désérialisez les données
-        console.log(
-          "Données récupérées avec succès depuis AsyncStorage : ",
-          parsedData,
-        ); // Ajoutez cette ligne
+        // console.log(
+        //   "Données récupérées avec succès depuis AsyncStorage : ",
+        //   parsedData,
+        // );
         setData(parsedData);
         setIsLoading(false); // Les données ont été chargées depuis le stockage local
       } else {
@@ -53,10 +53,10 @@ export default function Produits() {
         setIsLoading(false);
       }
     } catch (error) {
-      console.error(
-        "Erreur lors de la récupération des données locales",
-        error,
-      );
+      // console.error(
+      //   "Erreur lors de la récupération des données locales",
+      //   error,
+      // );
       setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
     }
   };
@@ -67,7 +67,7 @@ export default function Produits() {
   }, []);
 
   function renderProfiles({ item }) {
-    console.log("Données à afficher : ", item);
+    //console.log("Données à afficher : ", item);
     return (
       <View style={GlobalStyles.item}>
         <Text style={GlobalStyles.title}>{item.reference}</Text>
