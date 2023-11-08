@@ -32,7 +32,6 @@ export default function App() {
         if (response.status === 200) {
           // Le token est valide
           console.log("token valide et non-expiré");
-          setToken(storedToken);
         } else if (response.status === 401) {
           // Le token est expiré ou invalide, donc on le supprime
           const responseSupp = await SecureStore.deleteItemAsync("token");
