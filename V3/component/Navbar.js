@@ -18,5 +18,4 @@ export default function Navbar({ title, navigation, route }) {
     </View>
   );
 }
-
 /* https://icons.expo.fyi/Index */
