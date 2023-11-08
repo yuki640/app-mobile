@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-} from "@react-navigation/drawer";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as SecureStore from "expo-secure-store";
 
@@ -14,13 +10,12 @@ import Login from "../screens/Login";
 import Compte from "../screens/Compte";
 import Navbar from "./Navbar";
 import FicheProduit from "../screens/FicheProduit";
-import { GlobalStyles } from "../styles/AppStyles";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-function AppNavigator() {
-  const [token, setToken] = useState(null);
+function AppNavigator(navigation) {
+  const [token, setToken] = useState(false);
 
   useEffect(() => {
     // Récupérez le token stocké avec SecureStore
@@ -110,7 +105,7 @@ function AppNavigator() {
           name="Promotions"
           component={ProduitsPromotion}
           options={() => ({
-            header: (props) => <Navbar {...props} title="Nouveautés" />,
+            header: (props) => <Navbar {...props} title="Promotions" />,
           })}
         />
         {!token && (

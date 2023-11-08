@@ -37,7 +37,9 @@ export default function App() {
           // Le token est expiré ou invalide, donc on le supprime
           const responseSupp = await SecureStore.deleteItemAsync("token");
           if (!responseSupp) {
-            console.error("Le token n'a pas été supprimé du SecureStore");
+            console.log(
+              "Le token n'a pas été supprimé du SecureStore car il est valide",
+            );
           }
         } else {
           console.error(
