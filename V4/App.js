@@ -66,13 +66,10 @@ export default function App() {
         await Font.loadAsync({
           Entypo: require("@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Entypo.ttf"),
         });
-<<<<<<< HEAD
-=======
         // Chargement de l'icone ICON
         await Font.loadAsync({
           FontAwesome5: require("@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"),
         });
->>>>>>> origin/Thomas
         // Appel de la fonction pour récupérer le token
         await RetrieveToken();
       } catch (e) {

@@ -10,45 +10,30 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GlobalStyles } from "../styles/AppStyles";
 import { useNavigation } from "@react-navigation/native";
-<<<<<<< HEAD
 import base64 from "base-64";
-=======
->>>>>>> origin/Thomas
 
-export default function Produits({ route }) {
+export default function panier() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
-  const produitType = route.params?.produitType;
+  const panierType = "panier";
 
   useEffect(() => {
     // Fonction pour récupérer les données de l'API
     const fetchDataApi = async () => {
       try {
         console.log("Début de la récupération des données depuis l'API");
-        let apiEndpoint = "";
+        
 
-        if (produitType === "Tous") {
-          apiEndpoint =
-            "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/products";
-        } else if (produitType === "New") {
-          apiEndpoint =
-            "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/new_products";
-        } else if (produitType === "Promo") {
-          apiEndpoint =
-            "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/liste_promo";
-        }
-
-        if (apiEndpoint) {
-          const newData = await fetch(apiEndpoint);
+          const newData = await fetch("http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/panier");
           console.log("Données récupérées avec succès depuis l'API");
           const jsonData = await newData.json();
-          const storageKey = "data_product_" + produitType;
+          const storageKey = "data_product_" + panierType;
 
           await AsyncStorage.setItem(storageKey, JSON.stringify(jsonData));
           console.log("Données stockées avec succès dans AsyncStorage");
           setData(jsonData);
-        }
+        
 
         setIsLoading(false); // Les données ont été chargées
       } catch (error) {
@@ -60,7 +45,7 @@ export default function Produits({ route }) {
     const fetchDataLocal = async () => {
       try {
         console.log("Début de la récupération des données locales");
-        const storageKey = "data_product_" + produitType;
+        const storageKey = "data_product_" + panierType;
         const storedData = await AsyncStorage.getItem(storageKey);
 
         if (storedData !== null) {
@@ -80,10 +65,9 @@ export default function Produits({ route }) {
 
     fetchDataLocal(); // Vérifie si des données sont déjà stockées localement
     fetchDataApi(); // Charge les données depuis l'API
-  }, [produitType]);
+  }, [panierType]);
 
   function renderProfiles({ item }) {
-<<<<<<< HEAD
     // Supposez que item.image.data contienne les données binaires de l'image
     const binaryData = item.image?.data ?? [];
 
@@ -94,33 +78,13 @@ export default function Produits({ route }) {
     );
     // Créez l'URL de données avec le format correct
     const imageUrl = `data:${fileType};base64,${base64String}`;
-=======
-    console.log(item.image);
->>>>>>> origin/Thomas
     return (
-      <Pressable
-        onPress={() => navigation.navigate("FicheProduit", { item: item })}
-      >
+      
         <View style={GlobalStyles.item}>
-<<<<<<< HEAD
           <Text style={GlobalStyles.title}>{item.reference}</Text>
           <Text style={GlobalStyles.text}>{item.designation}</Text>
-          {item.image && (
-            <Image
-              source={{ uri: imageUrl }} // Utilisez une extension par défaut, par exemple, JPG
-              style={{ width: 200, height: 200 }} // Ajustez la taille selon vos besoins
-=======
-          {/*<Text style={GlobalStyles.title}>{item.reference}</Text>*/}
-          <Text style={GlobalStyles.text}>{item.designation}</Text>
-          {item.image && (
-            <Image
-              source={{ uri: item.image }}
-              style={{ width: 300, height: 200 }}
->>>>>>> origin/Thomas
-            />
-          )}
         </View>
-      </Pressable>
+      
     );
   }
 
@@ -133,10 +97,6 @@ export default function Produits({ route }) {
           data={data}
           renderItem={renderProfiles}
           keyExtractor={(item) => item.reference}
-<<<<<<< HEAD
-=======
-          style={{ marginTop: 20 }}
->>>>>>> origin/Thomas
         />
       ) : (
         <Text>Aucune donnée disponible.</Text>

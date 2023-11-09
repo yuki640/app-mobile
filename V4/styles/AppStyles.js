@@ -117,8 +117,6 @@ export const GlobalStyles = StyleSheet.create({
     padding: 20, // Espacement intérieur
   },
 });
-<<<<<<< HEAD
-=======
 export const StyleFiche = StyleSheet.create({
   container: {
     flex: 1,
@@ -167,4 +165,3 @@ export const StyleFiche = StyleSheet.create({
     marginRight: 5,
   },
 });
->>>>>>> origin/Thomas

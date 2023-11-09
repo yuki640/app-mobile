@@ -10,10 +10,6 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GlobalStyles } from "../styles/AppStyles";
 import { useNavigation } from "@react-navigation/native";
-<<<<<<< HEAD
-import base64 from "base-64";
-=======
->>>>>>> origin/Thomas
 
 export default function Produits({ route }) {
   const [data, setData] = useState([]);
@@ -83,40 +79,18 @@ export default function Produits({ route }) {
   }, [produitType]);
 
   function renderProfiles({ item }) {
-<<<<<<< HEAD
-    // Supposez que item.image.data contienne les données binaires de l'image
-    const binaryData = item.image?.data ?? [];
-
-    const fileType = "image/jpeg";
-    // Encodez les données binaires en base64
-    const base64String = base64.encode(
-      String.fromCharCode(...new Uint8Array(binaryData)),
-    );
-    // Créez l'URL de données avec le format correct
-    const imageUrl = `data:${fileType};base64,${base64String}`;
-=======
     console.log(item.image);
->>>>>>> origin/Thomas
     return (
       <Pressable
         onPress={() => navigation.navigate("FicheProduit", { item: item })}
       >
         <View style={GlobalStyles.item}>
-<<<<<<< HEAD
-          <Text style={GlobalStyles.title}>{item.reference}</Text>
-          <Text style={GlobalStyles.text}>{item.designation}</Text>
-          {item.image && (
-            <Image
-              source={{ uri: imageUrl }} // Utilisez une extension par défaut, par exemple, JPG
-              style={{ width: 200, height: 200 }} // Ajustez la taille selon vos besoins
-=======
           {/*<Text style={GlobalStyles.title}>{item.reference}</Text>*/}
           <Text style={GlobalStyles.text}>{item.designation}</Text>
           {item.image && (
             <Image
               source={{ uri: item.image }}
               style={{ width: 300, height: 200 }}
->>>>>>> origin/Thomas
             />
           )}
         </View>
@@ -133,10 +107,7 @@ export default function Produits({ route }) {
           data={data}
           renderItem={renderProfiles}
           keyExtractor={(item) => item.reference}
-<<<<<<< HEAD
-=======
           style={{ marginTop: 20 }}
->>>>>>> origin/Thomas
         />
       ) : (
         <Text>Aucune donnée disponible.</Text>
