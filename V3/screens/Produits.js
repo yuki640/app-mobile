@@ -10,7 +10,6 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GlobalStyles } from "../styles/AppStyles";
 import { useNavigation } from "@react-navigation/native";
-import base64 from "base-64";
 
 export default function Produits({ route }) {
   const [data, setData] = useState([]);
@@ -80,27 +79,18 @@ export default function Produits({ route }) {
   }, [produitType]);
 
   function renderProfiles({ item }) {
-    // Supposez que item.image.data contienne les données binaires de l'image
-    const binaryData = item.image?.data ?? [];
-
-    const fileType = "image/jpeg";
-    // Encodez les données binaires en base64
-    const base64String = base64.encode(
-      String.fromCharCode(...new Uint8Array(binaryData)),
-    );
-    // Créez l'URL de données avec le format correct
-    const imageUrl = `data:${fileType};base64,${base64String}`;
+    console.log(item.image);
     return (
       <Pressable
         onPress={() => navigation.navigate("FicheProduit", { item: item })}
       >
         <View style={GlobalStyles.item}>
-          <Text style={GlobalStyles.title}>{item.reference}</Text>
+          {/*<Text style={GlobalStyles.title}>{item.reference}</Text>*/}
           <Text style={GlobalStyles.text}>{item.designation}</Text>
           {item.image && (
             <Image
-              source={{ uri: imageUrl }} // Utilisez une extension par défaut, par exemple, JPG
-              style={{ width: 200, height: 200 }} // Ajustez la taille selon vos besoins
+              source={{ uri: item.image }}
+              style={{ width: 300, height: 200 }}
             />
           )}
         </View>
@@ -117,6 +107,7 @@ export default function Produits({ route }) {
           data={data}
           renderItem={renderProfiles}
           keyExtractor={(item) => item.reference}
+          style={{ marginTop: 20 }}
         />
       ) : (
         <Text>Aucune donnée disponible.</Text>

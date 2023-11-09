@@ -117,3 +117,51 @@ export const GlobalStyles = StyleSheet.create({
     padding: 20, // Espacement intérieur
   },
 });
+export const StyleFiche = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  header: {
+    marginBottom: 20,
+  },
+  profileCard: {
+    backgroundColor: "#ffffff",
+    padding: 20,
+    borderRadius: 10,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+  },
+  productImage: {
+    width: 200,
+    height: 200,
+    marginBottom: 10,
+    borderRadius: 5,
+  },
+  quantityContainer: {
+    marginVertical: 10,
+  },
+  quantityInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    fontSize: 16,
+  },
+  addToCartButton: {
+    backgroundColor: "#3498db",
+    padding: 10,
+    borderRadius: 5,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "#ffffff",
+    marginRight: 5,
+  },
+});
