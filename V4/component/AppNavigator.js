@@ -5,12 +5,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import * as SecureStore from "expo-secure-store";
 
 import Home from "../screens/Home";
-import Panier from "../screens/Panier";
 import Produits from "../screens/Produits";
 import Login from "../screens/Login";
 import Compte from "../screens/Compte";
 import Navbar from "./Navbar";
 import FicheProduit from "../screens/FicheProduit";
+import Panier from "../screens/Panier";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -29,17 +29,6 @@ function AppNavigator(navigation) {
     };
     getToken();
   }, []);
-  function Panier() {
-    return (
-      <Stack.Navigator initialRouteName={Panier}>
-        <Stack.Screen
-          name="Panier"
-          component={Panier}
-          initialParams={{ panierType: "Panier" }}
-        />
-      </Stack.Navigator>
-    );
-  }
   function ProduitsTous() {
     return (
       <Stack.Navigator initialRouteName={Produits}>
@@ -88,6 +77,19 @@ function AppNavigator(navigation) {
       </Stack.Navigator>
     );
   }
+  function PanierNavigator() {
+    return (
+      <Stack.Navigator initialRouteName={Panier}>
+        <Stack.Screen
+          name="Panier"
+          component={Panier}
+          initialParams={{ panierType: "Panier" }}
+        />
+      </Stack.Navigator>
+    );
+  }
+  
+  
 
   return (
     <NavigationContainer>
@@ -97,13 +99,6 @@ function AppNavigator(navigation) {
           component={Home}
           options={() => ({
             header: (props) => <Navbar {...props} title="Accueil" />,
-          })}
-        />
-        <Drawer.Screen
-          name="Panier"
-          component={Panier}
-          options={() => ({
-            header: (props) => <Navbar {...props} title="Panier" />,
           })}
         />
         <Drawer.Screen
@@ -145,6 +140,14 @@ function AppNavigator(navigation) {
             })}
           />
         )}
+        <Drawer.Screen
+  name="Panier"
+  component={PanierNavigator} // Utilise la fonction renommée
+  options={() => ({
+    header: (props) => <Navbar {...props} title="Panier" />,
+  })}
+/>
+
       </Drawer.Navigator>
     </NavigationContainer>
   );

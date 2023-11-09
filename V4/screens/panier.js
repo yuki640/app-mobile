@@ -16,73 +16,56 @@ export default function Panier() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
-  const panierType = "Panier";
+  const panierType = "panier";
 
   useEffect(() => {
-    // Fonction pour récupérer les données de l'API
-    const fetchDataApi = async () => {
+    const fetchData = async () => {
       try {
-        console.log("Début de la récupération des données depuis l'API");
-        
-          const newData = await fetch("http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/lookPanier");
-          console.log("Données récupérées avec succès depuis l'API");
-          const jsonData = await newData.json();
-          const storageKey = "data_product_" + panierType;
+        console.log("Début de la récupération des données...");
 
-          await AsyncStorage.setItem(storageKey, JSON.stringify(jsonData));
-          console.log("Données stockées avec succès dans AsyncStorage");
-          setData(jsonData);
-        
-        setIsLoading(false); // Les données ont été chargées
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données", error);
-        setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
-      }
-    };
-
-    const fetchDataLocal = async () => {
-      try {
-        console.log("Début de la récupération des données locales");
         const storageKey = "data_product_" + panierType;
         const storedData = await AsyncStorage.getItem(storageKey);
 
         if (storedData !== null) {
           const parsedData = JSON.parse(storedData);
           setData(parsedData);
+          console.log("Données récupérées depuis le stockage local.");
+        } else {
+          const response = await fetch("http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/lookPanier");
+          const jsonData = await response.json();
+
+          await AsyncStorage.setItem(storageKey, JSON.stringify(jsonData));
+          console.log("Données récupérées depuis l'API et stockées dans AsyncStorage.");
+          setData(jsonData);
         }
 
-        setIsLoading(false); // Les données ont été chargées depuis le stockage local
+        setIsLoading(false); // Les données ont été chargées
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des données locales",
-          error,
-        );
+        console.error("Erreur lors de la récupération des données", error);
         setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
+        // Ajoute des actions spécifiques en cas d'erreur, par exemple, afficher un message d'erreur à l'utilisateur.
       }
     };
 
-    fetchDataLocal(); // Vérifie si des données sont déjà stockées localement
-    fetchDataApi(); // Charge les données depuis l'API
+    fetchData();
   }, [panierType]);
 
   function renderProfiles({ item }) {
-    // Supposez que item.image.data contienne les données binaires de l'image
     const binaryData = item.image?.data ?? [];
-
     const fileType = "image/jpeg";
-    // Encodez les données binaires en base64
     const base64String = base64.encode(
       String.fromCharCode(...new Uint8Array(binaryData)),
     );
-    // Créez l'URL de données avec le format correct
     const imageUrl = `data:${fileType};base64,${base64String}`;
     return (
-      
-        <View style={GlobalStyles.item}>
-          <Text style={GlobalStyles.title}>{item.reference}</Text>
-          <Text style={GlobalStyles.text}>{item.designation}</Text>
-        </View>
-      
+      <View style={GlobalStyles.item}>
+        <Image
+          source={{ uri: imageUrl }}
+          style={GlobalStyles.image} // Ajoute un style pour la taille de l'image, etc.
+        />
+        <Text style={GlobalStyles.title}>{item.reference}</Text>
+        <Text style={GlobalStyles.text}>{item.designation}</Text>
+      </View>
     );
   }
 
