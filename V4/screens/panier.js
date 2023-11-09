@@ -12,11 +12,11 @@ import { GlobalStyles } from "../styles/AppStyles";
 import { useNavigation } from "@react-navigation/native";
 import base64 from "base-64";
 
-export default function panier() {
+export default function Panier() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
-  const panierType = "panier";
+  const panierType = "Panier";
 
   useEffect(() => {
     // Fonction pour récupérer les données de l'API
@@ -24,8 +24,7 @@ export default function panier() {
       try {
         console.log("Début de la récupération des données depuis l'API");
         
-
-          const newData = await fetch("http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/panier");
+          const newData = await fetch("http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/lookPanier");
           console.log("Données récupérées avec succès depuis l'API");
           const jsonData = await newData.json();
           const storageKey = "data_product_" + panierType;
@@ -34,7 +33,6 @@ export default function panier() {
           console.log("Données stockées avec succès dans AsyncStorage");
           setData(jsonData);
         
-
         setIsLoading(false); // Les données ont été chargées
       } catch (error) {
         console.error("Erreur lors de la récupération des données", error);
