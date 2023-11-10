@@ -77,20 +77,6 @@ function AppNavigator(navigation) {
       </Stack.Navigator>
     );
   }
-  function PanierNavigator() {
-    return (
-      <Stack.Navigator initialRouteName={Panier}>
-        <Stack.Screen
-          name="Panier"
-          component={Panier}
-          initialParams={{ panierType: "Panier" }}
-        />
-      </Stack.Navigator>
-    );
-  }
-  
-  
-
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
@@ -141,13 +127,12 @@ function AppNavigator(navigation) {
           />
         )}
         <Drawer.Screen
-  name="Panier"
-  component={PanierNavigator} // Utilise la fonction renommée
-  options={() => ({
-    header: (props) => <Navbar {...props} title="Panier" />,
-  })}
-/>
-
+          name="Panier"
+          component={Panier}
+          options={() => ({
+            header: (props) => <Navbar {...props} title="Panier" />,
+          })}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );
