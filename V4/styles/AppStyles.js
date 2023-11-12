@@ -13,6 +13,12 @@ export const GlobalStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  containerRegister: {
+    flex: 1,
+    backgroundColor: "#4FD3DA",
+    // alignItems: "center",
+    // justifyContent: "center",
+  },
   inputView: {
     width: "80%",
     backgroundColor: "#3AB4BA",
@@ -33,7 +39,7 @@ export const GlobalStyles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
+    marginTop: 20,
     marginBottom: 10,
   },
   LoginText: {

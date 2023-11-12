@@ -88,7 +88,10 @@ export default function Login() {
         ></TextInput>
       </View>
       <TouchableOpacity onPress={handleLogin} style={GlobalStyles.loginBtn}>
-        <Text>LOGIN </Text>
+        <Text style={GlobalStyles.text}>LOGIN </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+        <Text>Pas de compte ? Enregistrez-vous </Text>
       </TouchableOpacity>
     </View>
   );

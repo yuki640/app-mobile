@@ -61,9 +61,6 @@ const FicheProduit = ({ route }) => {
 
   return (
     <View style={StyleFiche.container}>
-      <View style={StyleFiche.header}>
-        <Text style={GlobalStyles.title}>Fiche du produit</Text>
-      </View>
       <View style={StyleFiche.profileCard}>
         <View>
           <Text style={GlobalStyles.title}>{designation}</Text>

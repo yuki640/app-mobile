@@ -11,6 +11,7 @@ import Compte from "../screens/Compte";
 import Navbar from "./Navbar";
 import FicheProduit from "../screens/FicheProduit";
 import Panier from "../screens/Panier";
+import Register from "../screens/Register";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -37,11 +38,7 @@ function AppNavigator(navigation) {
           component={Produits}
           initialParams={{ produitType: "Tous" }}
         />
-        <Stack.Screen
-          name="FicheProduit"
-          component={FicheProduit}
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="FicheProduit" component={FicheProduit} />
       </Stack.Navigator>
     );
   }
@@ -53,11 +50,7 @@ function AppNavigator(navigation) {
           component={Produits}
           initialParams={{ produitType: "New" }}
         />
-        <Stack.Screen
-          name="FicheProduit"
-          component={FicheProduit}
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="FicheProduit" component={FicheProduit} />
       </Stack.Navigator>
     );
   }
@@ -69,11 +62,15 @@ function AppNavigator(navigation) {
           component={Produits}
           initialParams={{ produitType: "Promo" }}
         />
-        <Stack.Screen
-          name="FicheProduit"
-          component={FicheProduit}
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="FicheProduit" component={FicheProduit} />
+      </Stack.Navigator>
+    );
+  }
+  function Connexion() {
+    return (
+      <Stack.Navigator initialRouteName={Login}>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
       </Stack.Navigator>
     );
   }
@@ -110,10 +107,10 @@ function AppNavigator(navigation) {
         />
         {!token && (
           <Drawer.Screen
-            name="Login"
-            component={Login}
+            name="Connexion"
+            component={Connexion}
             options={() => ({
-              header: (props) => <Navbar {...props} title="Login" />,
+              header: (props) => <Navbar {...props} title="Connexion" />,
             })}
           />
         )}

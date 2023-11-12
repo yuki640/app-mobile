@@ -10,12 +10,14 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GlobalStyles } from "../styles/AppStyles";
 import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 
 export default function Produits({ route }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
   const produitType = route.params?.produitType;
+  let jsonData;
 
   useEffect(() => {
     // Fonction pour récupérer les données de l'API
@@ -38,17 +40,21 @@ export default function Produits({ route }) {
         if (apiEndpoint) {
           const newData = await fetch(apiEndpoint);
           console.log("Données récupérées avec succès depuis l'API");
-          const jsonData = await newData.json();
+          jsonData = await newData.json();
+          console.log(jsonData);
           const storageKey = "data_product_" + produitType;
-
-          await AsyncStorage.setItem(storageKey, JSON.stringify(jsonData));
+          await SecureStore.setItemAsync(storageKey, JSON.stringify(jsonData));
           console.log("Données stockées avec succès dans AsyncStorage");
           setData(jsonData);
         }
 
         setIsLoading(false); // Les données ont été chargées
       } catch (error) {
-        console.error("Erreur lors de la récupération des données", error);
+        if (jsonData !== "undefined") {
+          console.log("Aucune data a afficher");
+        } else {
+          console.error("Erreur lors de la récupération des données", error);
+        }
         setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
       }
     };
@@ -57,7 +63,7 @@ export default function Produits({ route }) {
       try {
         console.log("Début de la récupération des données locales");
         const storageKey = "data_product_" + produitType;
-        const storedData = await AsyncStorage.getItem(storageKey);
+        const storedData = await SecureStore.getItemAsync(storageKey);
 
         if (storedData !== null) {
           const parsedData = JSON.parse(storedData);
@@ -110,7 +116,7 @@ export default function Produits({ route }) {
           style={{ marginTop: 20 }}
         />
       ) : (
-        <Text>Aucune donnée disponible.</Text>
+        <Text>Aucune Produit a afficher disponible.</Text>
       )}
     </View>
   );
