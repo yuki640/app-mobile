@@ -165,3 +165,7 @@ export const StyleFiche = StyleSheet.create({
     marginRight: 5,
   },
 });
+
+export const sam = StyleSheet.create({
+
+});
