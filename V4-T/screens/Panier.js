@@ -15,8 +15,18 @@ export default function Produits({ route }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const addToCart = (item) => {
-    // console.log(`Ajouté au panier : ${item.quantite} x ${item.designation}`);
+  const addToCart = (item, operation) => {
+    const updatedData = data.map((product) => {
+      if (product.reference === item.reference) {
+        product.quantite =
+          operation === "increment"
+            ? product.quantite + 1
+            : Math.max(product.quantite - 1, 0);
+      }
+      return product;
+    });
+
+    setData(updatedData);
   };
 
   useEffect(() => {
@@ -53,34 +63,31 @@ export default function Produits({ route }) {
   }, []);
 
   function renderProfiles({ item }) {
-    return (
-      <View style={GlobalStyles.itemContainer}>
-        <Image
-          source={{ uri: item.image }}
-          style={StyleFiche.productImage}
-        />
-        <View style={StyleFiche.productInfoContainer}>
-          <Text style={GlobalStyles.title}>{item.designation}</Text>
-          <Text style={GlobalStyles.text}>{item.total_prix}€</Text>
-        </View>
-        <View style={StyleFiche.buttonContainer}>
-          <TouchableOpacity
-            style={StyleFiche.addToCartButton}
-            onPress={() => addToCart(item)}
-          >
-            <Text style={StyleFiche.buttonText}>-</Text>
-          </TouchableOpacity>
-          <Text style={StyleFiche.quantityText}>{item.quantite}</Text>
-          <TouchableOpacity
-            style={StyleFiche.addToCartButton}
-            onPress={() => addToCart(item)}
-          >
-            <Text style={StyleFiche.buttonText}>+</Text>
-          </TouchableOpacity>
-        </View>
+  return (
+    <View style={[GlobalStyles.itemContainer, StyleFiche.itemContainer]}>
+      <Image source={{ uri: item.image }} style={StyleFiche.productImage} />
+      <View style={StyleFiche.productInfoContainer}>
+        <Text style={GlobalStyles.title}>{item.designation}</Text>
+        <Text style={GlobalStyles.text}>{item.total_prix}€</Text>
       </View>
-    );
-  }
+      <View style={StyleFiche.buttonContainer}>
+        <TouchableOpacity
+          style={StyleFiche.addToCartButton}
+          onPress={() => addToCart(item, "decrement")}
+        >
+          <Text style={StyleFiche.buttonText}>-</Text>
+        </TouchableOpacity>
+        <Text style={StyleFiche.quantityText}>{item.quantite}</Text>
+        <TouchableOpacity
+          style={StyleFiche.addToCartButton}
+          onPress={() => addToCart(item, "increment")}
+        >
+          <Text style={StyleFiche.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
 
   return (
     <View style={GlobalStyles.container}>
