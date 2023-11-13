@@ -16,17 +16,14 @@ export default function Produits({ route }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const addToCart = (item) => {
-    //console.log(`Ajouté au panier : ${item.quantite} x ${item.designation}`);
+    // console.log(`Ajouté au panier : ${item.quantite} x ${item.designation}`);
   };
 
   useEffect(() => {
-    // Fonction pour récupérer les données de l'API
     const fetchDataApi = async () => {
       try {
         const Token = await SecureStore.getItemAsync("token");
-        // if (!Token) {
-        //   navigation.navigate("Login");
-        //  }(
+
         console.log("Début de la récupération des données depuis l'API");
 
         const newData = await fetch(
@@ -35,61 +32,65 @@ export default function Produits({ route }) {
             method: "GET",
           },
         );
+
         console.log("Données récupérées avec succès depuis l'API");
+
         const jsonData = await newData.json();
         const storageKey = "data_product_panier";
 
         await AsyncStorage.setItem(storageKey, JSON.stringify(jsonData));
+
         console.log("Données stockées avec succès dans AsyncStorage");
         setData(jsonData);
-
         setIsLoading(false); // Les données ont été chargées
       } catch (error) {
         console.error("Erreur lors de la récupération des données", error);
         setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
       }
     };
+
     fetchDataApi(); // Charge les données depuis l'API
   }, []);
 
   function renderProfiles({ item }) {
-    console.log(item);
     return (
-      <View style={GlobalStyles.item}>
-        <Text style={GlobalStyles.title}>{item.designation}</Text>
-        {item.image && (
-          <Image
-            source={{ uri: item.image }}
-            style={{ width: 300, height: 200 }}
-          />
-        )}
-        <TouchableOpacity
-          style={StyleFiche.addToCartButton}
-          onPress={addToCart}
-        >
-          <Text style={StyleFiche.buttonText}>+</Text>
-        </TouchableOpacity>
-        <Text>{item.quantite}</Text>
-        <TouchableOpacity
-          style={StyleFiche.addToCartButton}
-          onPress={addToCart({ item })}
-        >
-          <Text style={StyleFiche.buttonText}>-</Text>
-        </TouchableOpacity>
-        <Text style={GlobalStyles.text}>{item.total_prix}€</Text>
+      <View style={GlobalStyles.itemContainer}>
+        <Image
+          source={{ uri: item.image }}
+          style={StyleFiche.productImage}
+        />
+        <View style={StyleFiche.productInfoContainer}>
+          <Text style={GlobalStyles.title}>{item.designation}</Text>
+          <Text style={GlobalStyles.text}>{item.total_prix}€</Text>
+        </View>
+        <View style={StyleFiche.buttonContainer}>
+          <TouchableOpacity
+            style={StyleFiche.addToCartButton}
+            onPress={() => addToCart(item)}
+          >
+            <Text style={StyleFiche.buttonText}>-</Text>
+          </TouchableOpacity>
+          <Text style={StyleFiche.quantityText}>{item.quantite}</Text>
+          <TouchableOpacity
+            style={StyleFiche.addToCartButton}
+            onPress={() => addToCart(item)}
+          >
+            <Text style={StyleFiche.buttonText}>+</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
 
   return (
-    <View>
+    <View style={GlobalStyles.container}>
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : data && data.length > 0 ? (
         <FlatList
           data={data}
           renderItem={renderProfiles}
-          keyExtractor={(item) => item.reference}
+          keyExtractor={(item) => item.reference.toString()}
         />
       ) : (
         <Text>Aucune donnée disponible.</Text>

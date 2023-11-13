@@ -6,9 +6,9 @@ import { AntDesign, Entypo } from "@expo/vector-icons";
 export default function Navbar({ title, navigation, route }) {
   return (
     <View style={GlobalStyles.containerNav}>
-      <TouchableOpacity onPress={() => navigation.openDrawer()}>
+      {/* <TouchableOpacity onPress={() => navigation.openDrawer()}>
         <Entypo name="menu" size={24} color="black" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Text style={GlobalStyles.titleNav}>{title}</Text>
       {route.name !== "Home" && (
         <TouchableOpacity onPress={() => navigation.goBack()}>

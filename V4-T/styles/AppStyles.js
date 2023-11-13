@@ -168,14 +168,15 @@ export const StyleFiche = StyleSheet.create({
   },
   buttonText: {
     color: "#ffffff",
-    marginRight: 5,
+    marginRight: "center",
   },
-});
-
-export const sam = StyleSheet.create({
-  TabBar: {
-    backgroundColor: "#f2f2f2",
-    width: 240,
+  buttonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  
+  quantityText: {
+    fontSize: 14, // ou toute autre taille souhaitée
+  },
+    
 });
