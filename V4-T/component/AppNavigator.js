@@ -36,11 +36,7 @@ function AppNavigator() {
   function ProduitsTous() {
     return (
       <Stack.Navigator initialRouteName={Produits}>
-        <Stack.Screen
-          name="Liste des Produits"
-          component={Produits}
-          initialParams={{ produitType: "Tous" }}
-        />
+        <Stack.Screen name="Liste des Produits" component={Produits} />
         <Stack.Screen name="FicheProduit" component={FicheProduit} />
       </Stack.Navigator>
     );
