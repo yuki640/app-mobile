@@ -19,6 +19,7 @@ export default function Produits() {
   const navigation = useNavigation();
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [produitType, setProduitType] = useState("Tous");
+  const [prevProduitType, setPrevProduitType] = useState("Tous");
 
   useEffect(() => {
     handleChoose();
@@ -71,42 +72,48 @@ export default function Produits() {
     }
   }
 
-  // async function fetchDataLocal() {
-  //   try {
-  //     console.log("Début de la récupération des données locales");
-  //     let storageKey = "data_product_" + produitType;
-  //     let storedData = await SecureStore.getItemAsync(storageKey);
-  //
-  //     if (storedData !== null) {
-  //       const parsedData = JSON.parse(storedData);
-  //
-  //       // Vérifier si le tableau parsedData est vide
-  //       if (Array.isArray(parsedData) && parsedData.length === 0) {
-  //         console.log("Aucune donnée récupérée depuis le stockage local");
-  //
-  //         // Réinitialiser l'état data à un tableau vide
-  //         setData([]);
-  //         return; // Sortir de la fonction sans mettre à jour l'état
-  //       }
-  //
-  //       setData(parsedData);
-  //       console.log("Données récupérées avec succès depuis le stockage local");
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       "Erreur lors de la récupération des données locales",
-  //       error,
-  //     );
-  //     throw error;
-  //   }
-  // }
+  async function fetchDataLocal() {
+    try {
+      console.log("Début de la récupération des données locales");
+      let storageKey = "data_product_" + produitType;
+      let storedData = await SecureStore.getItemAsync(storageKey);
+
+      if (storedData !== null) {
+        const parsedData = JSON.parse(storedData);
+
+        // Vérifier si le tableau parsedData est vide
+        if (Array.isArray(parsedData) && parsedData.length === 0) {
+          console.log("Aucune donnée récupérée depuis le stockage local");
+
+          // Réinitialiser l'état data à un tableau vide
+          setData([]);
+          return; // Sortir de la fonction sans mettre à jour l'état
+        }
+
+        setData(parsedData);
+        console.log("Données récupérées avec succès depuis le stockage local");
+      }
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des données locales",
+        error,
+      );
+      throw error;
+    }
+  }
 
   async function handleChoose() {
     try {
       setIsLoading(true);
-      // await fetchDataLocal();
-      await fetchDataApi();
-      console.log("handle : ", produitType);
+      await fetchDataLocal();
+
+      // Vérifier si la valeur du Picker a changé depuis la dernière fois
+      if (produitType !== prevProduitType) {
+        await fetchDataApi();
+        // Mettre à jour la valeur précédente du Picker
+        setPrevProduitType(produitType);
+      }
+
       setIsLoading(false);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
@@ -137,10 +144,10 @@ export default function Produits() {
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : data && data.length > 0 ? (
-        <View>
+        <View style={{ alignItems: "center" }}>
           <Pressable onPress={togglePicker}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={GlobalStyles.textCompte}>
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
                 Choisir le type de produit
               </Text>
               <Text>{isPickerOpen ? " ▲" : " ▼"}</Text>
@@ -148,6 +155,7 @@ export default function Produits() {
           </Pressable>
           {isPickerOpen && (
             <Picker
+              style={{ textAlign: "center" }}
               mode="dropdown"
               selectedValue={produitType}
               onValueChange={(itemValue, itemIndex) => {
