@@ -19,22 +19,12 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    getToken();
-  }, []);
+
 
   return (
     <View style={GlobalStyles.container}>
-      <View>
-        <Text style={GlobalStyles.text}>Ceci est la page d'accueil</Text>
-      </View>
-      <View>
-        <Text style={GlobalStyles.text}>
-          {token
-            ? "Vous êtes connecté avec un token."
-            : "Vous n'êtes pas connecté. Veuillez vous connecter."}
-        </Text>
-      </View>
+      <Text style={GlobalStyles.title}>Bienvenue sur l'application</Text>
+      <Text style={GlobalStyles.title}>DevRoomService</Text>
     </View>
   );
 }
