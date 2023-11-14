@@ -22,10 +22,6 @@ export default function Register() {
   const [adrLivraison, setAdrLivraison] = useState("");
   const navigation = useNavigation();
 
-  async function saveToken(key, value) {
-    await SecureStore.setItemAsync(key, value);
-  }
-
   const showErrorAlert = (message) => {
     alert(message);
   };
