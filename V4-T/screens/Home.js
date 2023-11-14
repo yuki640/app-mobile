@@ -1,30 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Button } from "react-native";
+import { Text, View, FlatList } from "react-native";
+import Carousel from "react-native-snap-carousel";
 import { GlobalStyles } from "../styles/AppStyles";
 import * as SecureStore from "expo-secure-store";
 
 export default function Home() {
-  const [token, setToken] = useState(null);
+  const [carouselData, setCarouselData] = useState([
+    // Ajoutez vos données pour chaque élément du carrousel ici
+    { title: "Élément 1" },
+    { title: "Élément 2" },
+    { title: "Élément 3" },
+    // ...
+  ]);
 
-  // Fonction pour récupérer le token depuis SecureStore
-  const getToken = async () => {
-    try {
-      const storedToken = await SecureStore.getItemAsync("token");
-      if (storedToken) {
-        setToken(storedToken);
-        console.log("Token récupéré :", storedToken);
-      }
-    } catch (error) {
-      console.error("Erreur lors de la récupération du token :", error);
-    }
+  const renderCarouselItem = ({ item, index }) => {
+    return (
+      <View style={GlobalStyles.carouselItem}>
+        <Text>{item.title}</Text>
+      </View>
+    );
   };
-
-
 
   return (
     <View style={GlobalStyles.container}>
       <Text style={GlobalStyles.title}>Bienvenue sur l'application</Text>
       <Text style={GlobalStyles.title}>DevRoomService</Text>
+
+      <Carousel
+        data={carouselData}
+        renderItem={renderCarouselItem}
+        sliderWidth={300}
+        itemWidth={300}
+      />
     </View>
   );
 }
