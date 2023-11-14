@@ -1,3 +1,5 @@
+//AppStyles.js
+
 import { StyleSheet } from "react-native";
 
 export const GlobalStyles = StyleSheet.create({
@@ -227,3 +229,5 @@ export const StyleFiche = StyleSheet.create({
     marginBottom: 8,
   },
 });
+
+

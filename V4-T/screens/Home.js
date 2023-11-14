@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions } from "react-native";
+//import appstyles.js
+import { GlobalStyles } from "../styles/AppStyles";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -49,6 +51,9 @@ export default function Home() {
     </View>
   );
 }
+
+
+
 
 const styles = StyleSheet.create({
   container: {
