@@ -12,7 +12,7 @@ export default function Home() {
       const storedToken = await SecureStore.getItemAsync("token");
       if (storedToken) {
         setToken(storedToken);
-        console.log("Token récupéré :", storedToken);
+        console.log("Token récupéré page HOME :", storedToken);
       }
     } catch (error) {
       console.error("Erreur lors de la récupération du token :", error);
