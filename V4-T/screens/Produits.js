@@ -71,35 +71,35 @@ export default function Produits() {
     }
   }
 
-  async function fetchDataLocal() {
-    try {
-      console.log("Début de la récupération des données locales");
-      let storageKey = "data_product_" + produitType;
-      let storedData = await SecureStore.getItemAsync(storageKey);
-
-      if (storedData !== null) {
-        const parsedData = JSON.parse(storedData);
-
-        // Vérifier si le tableau parsedData est vide
-        if (Array.isArray(parsedData) && parsedData.length === 0) {
-          console.log("Aucune donnée récupérée depuis le stockage local");
-
-          // Réinitialiser l'état data à un tableau vide
-          setData([]);
-          return; // Sortir de la fonction sans mettre à jour l'état
-        }
-
-        setData(parsedData);
-        console.log("Données récupérées avec succès depuis le stockage local");
-      }
-    } catch (error) {
-      console.error(
-        "Erreur lors de la récupération des données locales",
-        error,
-      );
-      throw error;
-    }
-  }
+  // async function fetchDataLocal() {
+  //   try {
+  //     console.log("Début de la récupération des données locales");
+  //     let storageKey = "data_product_" + produitType;
+  //     let storedData = await SecureStore.getItemAsync(storageKey);
+  //
+  //     if (storedData !== null) {
+  //       const parsedData = JSON.parse(storedData);
+  //
+  //       // Vérifier si le tableau parsedData est vide
+  //       if (Array.isArray(parsedData) && parsedData.length === 0) {
+  //         console.log("Aucune donnée récupérée depuis le stockage local");
+  //
+  //         // Réinitialiser l'état data à un tableau vide
+  //         setData([]);
+  //         return; // Sortir de la fonction sans mettre à jour l'état
+  //       }
+  //
+  //       setData(parsedData);
+  //       console.log("Données récupérées avec succès depuis le stockage local");
+  //     }
+  //   } catch (error) {
+  //     console.error(
+  //       "Erreur lors de la récupération des données locales",
+  //       error,
+  //     );
+  //     throw error;
+  //   }
+  // }
 
   async function handleChoose() {
     try {
