@@ -137,19 +137,12 @@
 
 // export default AppNavigator;
 
-
-
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as SecureStore from "expo-secure-store";
-import {AntDesign} from "@expo/vector-icons"; // Importez les icônes nécessaires
+import { AntDesign } from "@expo/vector-icons"; // Importez les icônes nécessaires
 
 import Home from "../screens/Home";
 import Produits from "../screens/Produits";
@@ -191,15 +184,20 @@ function AppNavigator() {
       </Stack.Navigator>
     );
   }
-
+  function Connexion() {
+    return (
+      <Stack.Navigator initialRouteName={Login}>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
+      </Stack.Navigator>
+    );
+  }
   return (
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            
-
             if (route.name === "Home") {
               iconName = "home";
             } else if (route.name === "Produits") {
@@ -226,7 +224,7 @@ function AppNavigator() {
           })}
         />
         <Tab.Screen
-          name="Produits" 
+          name="Produits"
           component={ProduitsTous}
           options={() => ({
             header: (props) => <Navbar {...props} title="Produits" />,
@@ -242,7 +240,7 @@ function AppNavigator() {
         {!token && (
           <Tab.Screen
             name="Connexion"
-            component={Login}
+            component={Connexion}
             options={() => ({
               header: (props) => <Navbar {...props} title="Connexion" />,
             })}

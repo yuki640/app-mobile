@@ -43,7 +43,7 @@ export default function Produits({ route }) {
           jsonData = await newData.json();
           console.log(jsonData);
           const storageKey = "data_product_" + produitType;
-          await SecureStore.setItemAsync(storageKey, JSON.stringify(jsonData));
+          await AsyncStorage.setItem(storageKey, JSON.stringify(jsonData));
           console.log("Données stockées avec succès dans AsyncStorage");
           setData(jsonData);
         }

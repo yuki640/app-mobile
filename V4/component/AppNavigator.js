@@ -16,7 +16,7 @@ import Register from "../screens/Register";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-function AppNavigator(navigation) {
+function AppNavigator() {
   const [token, setToken] = useState(false);
 
   useEffect(() => {

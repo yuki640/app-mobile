@@ -47,7 +47,6 @@ export default function Login() {
       }
       if (response.ok) {
         const data = await response.json();
-
         console.log(data.token);
         // Vérifiez d'abord si data.token est défini
         if (data.token) {
