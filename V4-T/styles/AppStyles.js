@@ -3,11 +3,9 @@ import { StyleSheet } from "react-native";
 export const GlobalStyles = StyleSheet.create({
   // Style pour le conteneur principal
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f2f2f2",
+    
   },
+
   // Style pour la page de connexion
   containerLogin: {
     flex: 1,
