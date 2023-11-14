@@ -17,17 +17,21 @@ export default function Produits() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [produitType, setProduitType] = useState("Tous");
 
   useEffect(() => {
     handleChoose();
   }, [produitType]);
+  const togglePicker = () => {
+    setIsPickerOpen(!isPickerOpen);
+  };
 
   async function fetchDataApi() {
     try {
       console.log("Début de la récupération des données depuis l'API");
       let apiEndpoint = "";
-      console.log(produitType);
+
       if (produitType === "Tous") {
         apiEndpoint =
           "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/products";
@@ -45,7 +49,7 @@ export default function Produits() {
 
         let jsonData = "";
         jsonData = await newData.json();
-        console.log("new data", jsonData);
+        console.log("type produit", produitType);
         // Vérifier si le tableau jsonData est vide
         if (Array.isArray(jsonData) && jsonData.length === 0) {
           console.log("Aucune donnée récupérée depuis l'API");
@@ -100,8 +104,9 @@ export default function Produits() {
   async function handleChoose() {
     try {
       setIsLoading(true);
-      await fetchDataLocal();
+      // await fetchDataLocal();
       await fetchDataApi();
+      console.log("handle : ", produitType);
       setIsLoading(false);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
@@ -133,17 +138,28 @@ export default function Produits() {
         <ActivityIndicator size="large" color="#0000ff" />
       ) : data && data.length > 0 ? (
         <View>
-          <Picker
-            selectedValue={produitType}
-            onValueChange={(itemValue, itemIndex) => {
-              setProduitType(itemValue);
-              handleChoose();
-            }}
-          >
-            <Picker.Item label="Tous les produits" value="Tous" />
-            <Picker.Item label="Nouveautés" value="New" />
-            <Picker.Item label="Promotions" value="Promo" />
-          </Picker>
+          <Pressable onPress={togglePicker}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={GlobalStyles.textCompte}>
+                Choisir le type de produit
+              </Text>
+              <Text>{isPickerOpen ? " ▲" : " ▼"}</Text>
+            </View>
+          </Pressable>
+          {isPickerOpen && (
+            <Picker
+              mode="dropdown"
+              selectedValue={produitType}
+              onValueChange={(itemValue, itemIndex) => {
+                setProduitType(itemValue);
+                handleChoose();
+              }}
+            >
+              <Picker.Item label="Tous les produits" value="Tous" />
+              <Picker.Item label="Nouveautés" value="New" />
+              <Picker.Item label="Promotions" value="Promo" />
+            </Picker>
+          )}
           <FlatList
             data={data}
             renderItem={renderProfiles}

@@ -20,14 +20,17 @@ const Stack = createStackNavigator();
 let iconName;
 
 function AppNavigator() {
-  const [token, setToken] = useState(false);
+  const [token, setToken] = useState(" ");
 
   useEffect(() => {
     const getToken = async () => {
       const storedToken = await SecureStore.getItemAsync("token");
       if (storedToken) {
         setToken(storedToken);
-        console.log("Token récupéré :", storedToken);
+        console.log("Token récupéré AppNavigator:", storedToken);
+      } else {
+        console.log("Le token est setté a blanc : ");
+        setToken(" ");
       }
     };
     getToken();
@@ -94,7 +97,7 @@ function AppNavigator() {
             header: (props) => <Navbar {...props} title="Panier" />,
           })}
         />
-        {!token && (
+        {token.length === 1 && (
           <Tab.Screen
             name="Connexion"
             component={Connexion}
@@ -103,7 +106,7 @@ function AppNavigator() {
             })}
           />
         )}
-        {token && (
+        {token.length > 1 && (
           <Tab.Screen
             name="Compte"
             component={Compte}

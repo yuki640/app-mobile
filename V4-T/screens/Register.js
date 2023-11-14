@@ -152,6 +152,7 @@ export default function Register() {
           placeholderTextColor="#003f5c"
           onChangeText={(val) => setMail(val)}
           returnKeyType="done"
+          keyboardType="email-address"
           maxLength={100}
         ></TextInput>
       </View>
@@ -162,6 +163,7 @@ export default function Register() {
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
           onChangeText={(val) => setMotdepasse(val)}
+          keyboardType="visible-password"
           returnKeyType="done"
           maxLength={70}
         ></TextInput>
