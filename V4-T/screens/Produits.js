@@ -155,7 +155,7 @@ export default function Produits() {
           </Pressable>
           {isPickerOpen && (
             <Picker
-              style={{ textAlign: "center" }}
+              //style={{ textAlign: "center", backgroundColor: "#0000ff" }}
               mode="dropdown"
               selectedValue={produitType}
               onValueChange={(itemValue, itemIndex) => {
