@@ -106,13 +106,15 @@ export default function Home() {
             />
           </TouchableOpacity>
         )}
-        style={{ height: screenHeight * 0.3 }}
       />
+
       <View style={HomeStyles.body}>
         <Text style={HomeStyles.welcomeText}>
           Bienvenue sur notre application de e-commerce !
         </Text>
-        <TouchableOpacity style={HomeStyles.shopNowButton}>
+        <TouchableOpacity 
+        // onPress={navigation.navigate("Produits")} 
+           style={HomeStyles.shopNowButton}>
           <Text style={HomeStyles.shopNowButtonText}>Commencez vos achats</Text>
         </TouchableOpacity>
       </View>
