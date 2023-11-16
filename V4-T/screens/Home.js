@@ -7,6 +7,7 @@ import { GlobalStyles } from "../styles/AppStyles";
 // Ici, on récupère les dimensions de l'écran
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
+
 const promotionsData = [
   { id: 1, image: require("../images/choco1.png") },
   { id: 2, image: require("../images/choco2.jpg") },
@@ -18,31 +19,34 @@ export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const HomeStyles = getHomeStyles(screenWidth, screenHeight);
   const flatListRef = useRef(); // Référence à la FlatList
-
+  const [data, setData] = useState([]);
 
 
   function ListePromo() {
-    const [data, newData] = useState([]);
-
       const fetchDataApi = async () => {
         try {
           console.log("Début de la récupération des données depuis l'API");
-  
           const newData = await fetch(
             "https://api.devroomservice.v70208.campus-centre.fr/listePromo"
           );
           console.log("Données récupérées avec succès depuis l'API");
+          let jsonData = "";
+          jsonData = await newData.json();
+          console.log(jsonData)
+          setData(jsonData);
         } catch (error) {
           console.error("Erreur lors de la récupération des données", error);
           setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
         }
+    
+       
+
       };
-   
-  
   };
 
 
   useEffect(() => {
+    ListePromo();
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => {
         const nextIndex = (prevIndex + 1) % promotionsData.length;
@@ -55,6 +59,14 @@ export default function Home() {
     }, 4000);
     return () => clearInterval(interval);
   }, []);
+
+  function renderData({ item }) {
+    return(
+      <TouchableOpacity style={HomeStyles.promotionItem}>
+      <Image source={item.image} style={HomeStyles.promotionImage} resizeMode="cover" />
+    </TouchableOpacity>
+    )
+  }
 
   return (
     <View style={HomeStyles.container}>
@@ -82,6 +94,17 @@ export default function Home() {
           <Text style={HomeStyles.shopNowButtonText}>Commencez vos achats</Text>
         </TouchableOpacity>
       </View>
+      
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.reference}
+        style = {{marginTop: 20}}
+        renderItem={renderData}
+         
+        
+        
+      />
+      
     </View>
   );
 }
