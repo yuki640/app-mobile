@@ -242,7 +242,6 @@ export const StyleFiche = StyleSheet.create({
   // Style pour le texte du bouton
   buttonText: {
     color: "#ffffff",
-    marginRight: "center",
   },
   // Style pour le conteneur des boutons
   buttonContainer: {
