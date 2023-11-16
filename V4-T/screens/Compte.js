@@ -20,7 +20,7 @@ export default function Compte() {
 
       console.log("Début de la récupération des données depuis l'API");
       const newData = await fetch(
-        `http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/lookprofil?token=${storedToken}`,
+        `https://api.devroomservice.v70208.campus-centre.fr/lookprofil?token=${storedToken}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

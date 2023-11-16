@@ -31,7 +31,7 @@ const FicheProduit = ({ route }) => {
         })}`,
       );
       const Response = await fetch(
-        "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/addPanier",
+        "https://api.devroomservice.v70208.campus-centre.fr/addPanier",
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

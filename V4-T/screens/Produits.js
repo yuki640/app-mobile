@@ -19,6 +19,7 @@ export default function Produits() {
   const navigation = useNavigation();
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [produitType, setProduitType] = useState("Tous");
+  const [prevProduitType, setPrevProduitType] = useState("Tous");
 
   useEffect(() => {
     handleChoose();
@@ -34,13 +35,13 @@ export default function Produits() {
 
       if (produitType === "Tous") {
         apiEndpoint =
-          "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/products";
+          "https://api.devroomservice.v70208.campus-centre.fr/products";
       } else if (produitType === "New") {
         apiEndpoint =
-          "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/newProducts";
+          "https://api.devroomservice.v70208.campus-centre.fr/newProducts";
       } else if (produitType === "Promo") {
         apiEndpoint =
-          "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/listePromo";
+          "https://api.devroomservice.v70208.campus-centre.fr/listePromo";
       }
       console.log("api", apiEndpoint);
       if (apiEndpoint) {
@@ -104,9 +105,15 @@ export default function Produits() {
   async function handleChoose() {
     try {
       setIsLoading(true);
-      // await fetchDataLocal();
-      await fetchDataApi();
-      console.log("handle : ", produitType);
+      await fetchDataLocal();
+
+      // Vérifier si la valeur du Picker a changé depuis la dernière fois
+      if (produitType !== prevProduitType) {
+        await fetchDataApi();
+        // Mettre à jour la valeur précédente du Picker
+        setPrevProduitType(produitType);
+      }
+
       setIsLoading(false);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
@@ -137,10 +144,10 @@ export default function Produits() {
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : data && data.length > 0 ? (
-        <View>
+        <View style={{ alignItems: "center" }}>
           <Pressable onPress={togglePicker}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={GlobalStyles.textCompte}>
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
                 Choisir le type de produit
               </Text>
               <Text>{isPickerOpen ? " ▲" : " ▼"}</Text>
@@ -148,6 +155,7 @@ export default function Produits() {
           </Pressable>
           {isPickerOpen && (
             <Picker
+              style={{ textAlign: "center" }}
               mode="dropdown"
               selectedValue={produitType}
               onValueChange={(itemValue, itemIndex) => {

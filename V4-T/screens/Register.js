@@ -44,7 +44,7 @@ export default function Register() {
     /*On appelle l'api pour vérifier les infos de connexion */
     try {
       const response = await fetch(
-        "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/Register",
+        "https://api.devroomservice.v70208.campus-centre.fr/Register",
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
