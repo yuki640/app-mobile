@@ -5,20 +5,15 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
 // Styles pour Home
 export const getHomeStyles = () => StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    // Peut-être enlever le paddingTop si nécessaire
-  },
+  
   promotionItem: {
     width: screenWidth,
-    height: screenHeight * 0.25, // Assurez-vous que cette hauteur est correcte et correspond à la hauteur des images
-    // Enlevez la marge négative si elle est toujours là
+    height: screenHeight * 0.3,
   },
   promotionImage: {
-    //width automatique
-
-
+    flex: 1,
+    width: "100%",
+    height: "100%",
     borderRadius: 20,
   },
   body: {
@@ -242,6 +237,7 @@ export const StyleFiche = StyleSheet.create({
   // Style pour le texte du bouton
   buttonText: {
     color: "#ffffff",
+    marginRight: "center",
   },
   // Style pour le conteneur des boutons
   buttonContainer: {
