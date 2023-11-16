@@ -10,7 +10,7 @@ const promotionsData = [
   // Ajoutez autant d'images de promotion que nécessaire avec des identifiants uniques
 ];
 
-export default function Home() {
+export default function Home({ route }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -49,6 +49,8 @@ export default function Home() {
   );
 }
 
+
+  
 
 
 const styles = StyleSheet.create({
