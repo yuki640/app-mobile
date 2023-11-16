@@ -9,8 +9,11 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { getHomeStyles } from "../styles/AppStyles";
 import { GlobalStyles } from "../styles/AppStyles";
+
+
 
 // Ici, on récupère les dimensions de l'écran
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -27,6 +30,7 @@ export default function Home() {
   const HomeStyles = getHomeStyles(screenWidth, screenHeight);
   const flatListRef = useRef(); // Référence à la FlatList
   const [data, setData] = useState([]);
+  const navigation = useNavigation();
 
   async function ListePromo() {
     try {

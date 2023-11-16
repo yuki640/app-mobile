@@ -10,11 +10,11 @@ export default function Navbar({ title, navigation, route }) {
         <Entypo name="menu" size={24} color="black" />
       </TouchableOpacity> */}
       <Text style={GlobalStyles.titleNav}>{title}</Text>
-      {route.name !== "Home" && (
+      {/* {route.name !== "Home" && (
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
-      )}
+      )} */}
     </View>
   );
 }

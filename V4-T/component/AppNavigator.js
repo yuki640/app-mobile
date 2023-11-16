@@ -44,6 +44,21 @@ function AppNavigator() {
       </Stack.Navigator>
     );
   }
+  function HomeTous() {
+    return (
+      <Stack.Navigator initialRouteName={Home}>
+  <Stack.Screen name="Accueil" component={Home} />
+  <Stack.Screen 
+    name="FicheProduit" 
+    component={FicheProduit} 
+    options={{ 
+      headerTintColor: 'black', // Change la couleur des éléments de l'en-tête (titre, boutons)
+    }}
+  />
+</Stack.Navigator>
+
+    );
+  }
   function Connexion() {
     return (
       <Stack.Navigator initialRouteName={Login}>
@@ -78,7 +93,7 @@ function AppNavigator() {
       >
         <Tab.Screen
           name="Home"
-          component={Home}
+          component={HomeTous}
           options={() => ({
             header: (props) => <Navbar {...props} title="Accueil" />,
           })}
