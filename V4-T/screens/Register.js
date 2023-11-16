@@ -7,7 +7,6 @@ import {
   View,
   Platform,
 } from "react-native";
-import * as SecureStore from "expo-secure-store";
 import { useNavigation } from "@react-navigation/native";
 import { GlobalStyles } from "../styles/AppStyles";
 

@@ -1,6 +1,22 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, useRef  } from "react";
 import { View, Text, Image, TouchableOpacity, FlatList, Dimensions } from "react-native";
 import { getHomeStyles } from '../styles/AppStyles';
+=======
+import React, { useState, useEffect, useRef } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  Dimensions,
+  Pressable,
+  ScrollView,
+} from "react-native";
+import { getHomeStyles } from "../styles/AppStyles";
+import { GlobalStyles } from "../styles/AppStyles";
+>>>>>>> origin/Thomas
 
 // Ici, on récupère les dimensions de l'écran
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -18,6 +34,7 @@ export default function Home() {
   const flatListRef = useRef(); // Référence à la FlatList
   const [data, setData] = useState([]);
 
+<<<<<<< HEAD
 
   function ListePromo() {
       const fetchDataApi = async () => {
@@ -38,6 +55,24 @@ export default function Home() {
       };
   };
 
+=======
+  async function ListePromo() {
+    try {
+      console.log("Début de la récupération des données depuis l'API");
+      const newData = await fetch(
+        "https://api.devroomservice.v70208.campus-centre.fr/listePromo",
+      );
+      console.log("Données récupérées avec succès depuis l'API");
+      let jsonData = "";
+      jsonData = await newData.json();
+      console.log(jsonData);
+      setData(jsonData);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données", error);
+      setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
+    }
+  }
+>>>>>>> origin/Thomas
 
   useEffect(() => {
     ListePromo();
@@ -55,15 +90,25 @@ export default function Home() {
   }, []);
 
   function renderData({ item }) {
-    return(
-      <TouchableOpacity style={HomeStyles.promotionItem}>
-      <Image source={item.image} style={HomeStyles.promotionImage} resizeMode="cover" />
-    </TouchableOpacity>
-    )
+    return (
+      <Pressable
+        onPress={() => navigation.navigate("FicheProduit", { item: item })}
+      >
+        <View style={GlobalStyles.item}>
+          <Text style={GlobalStyles.text}>{item.designation}</Text>
+          {item.image && (
+            <Image
+              source={{ uri: item.image }}
+              style={{ width: 300, height: 200 }}
+            />
+          )}
+        </View>
+      </Pressable>
+    );
   }
 
   return (
-    <View style={HomeStyles.container}>
+    <ScrollView style={HomeStyles.container}>
       <FlatList
         ref={flatListRef} // Utilisation de la référence
         data={promotionsData}
@@ -72,31 +117,37 @@ export default function Home() {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={(event) => {
-          const newIndex = Math.floor(event.nativeEvent.contentOffset.x / screenWidth);
+          const newIndex = Math.floor(
+            event.nativeEvent.contentOffset.x / screenWidth,
+          );
           setCurrentIndex(newIndex);
         }}
         renderItem={({ item }) => (
           <TouchableOpacity style={HomeStyles.promotionItem}>
-            <Image source={item.image} style={HomeStyles.promotionImage} resizeMode="cover" />
+            <Image
+              source={item.image}
+              style={HomeStyles.promotionImage}
+              resizeMode="cover"
+            />
           </TouchableOpacity>
         )}
         style={{ height: screenHeight * 0.3 }}
       />
       <View style={HomeStyles.body}>
-        <Text style={HomeStyles.welcomeText}>Bienvenue sur notre application de e-commerce !</Text>
+        <Text style={HomeStyles.welcomeText}>
+          Bienvenue sur notre application de e-commerce !
+        </Text>
         <TouchableOpacity style={HomeStyles.shopNowButton}>
           <Text style={HomeStyles.shopNowButtonText}>Commencez vos achats</Text>
         </TouchableOpacity>
       </View>
-      
+
       <FlatList
         data={data}
         keyExtractor={(item) => item.reference}
-        style = {{marginTop: 20}}
+        style={{ marginTop: 20 }}
         renderItem={renderData}
       />
-      
-    </View>
+    </ScrollView>
   );
 }
-
