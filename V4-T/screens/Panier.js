@@ -13,25 +13,74 @@ import { GlobalStyles, StyleFiche } from "../styles/AppStyles";
 import * as SecureStore from "expo-secure-store";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Produits({ route }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [quantiteInput, setQuantiteInput] = useState(""); // Ajoutez un état pour la valeur du TextInput
   const navigation = useNavigation();
 
-  const addToCart = (item, operation) => {
-    const updatedData = data.map((product) => {
-      if (product.reference === item.reference) {
-        product.quantite =
-          operation === "increment"
-            ? product.quantite + 1
-            : Math.max(product.quantite - 1, 0);
-      }
-      return product;
-    });
+  const updateCart = async (item, operation, newQuantite) => {
+    try {
+      let nouvelleQuantite;
 
-    setData(updatedData);
+      // Mettre à jour la quantité en fonction de l'opération
+      if (operation !== "") {
+        nouvelleQuantite = item.quantite;
+        if (operation === "increment") {
+          nouvelleQuantite += 1;
+        } else if (operation === "decrement") {
+          nouvelleQuantite = Math.max(nouvelleQuantite - 1, 0);
+        }
+      } else {
+        nouvelleQuantite = newQuantite;
+      }
+      // Appeler l'API pour mettre à jour la quantité dans le panier
+      const response = await fetch(
+        "https://api.devroomservice.v70208.campus-centre.fr/updatePanier",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            codepa: item.codepa,
+            nouvelleQuantite: nouvelleQuantite,
+          }),
+        },
+      );
+
+      if (response.ok) {
+        // Le code de statut est dans la plage 200
+        const responseData = await response.json();
+        console.log("Succès :", responseData.message);
+
+        // Mettre à jour l'état local avec la nouvelle quantité
+        const updatedData = data.map((product) => {
+          if (product.reference === item.reference) {
+            product.quantite = nouvelleQuantite;
+          }
+          return product;
+        });
+
+        setData(updatedData);
+      } else if (response.status === 404) {
+        console.log(response.status, "Élément du panier introuvable.");
+      } else {
+        console.log(
+          response.status,
+          "Erreur lors de la mise à jour de la quantité du produit dans le panier.",
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Erreur lors de la mise à jour de la quantité du produit dans le panier",
+        error,
+      );
+    }
   };
+
   const removeToCart = async (token, codepa) => {
     console.log(token);
     try {
@@ -108,11 +157,11 @@ export default function Produits({ route }) {
 
     const unsubscribeFocus = navigation.addListener("focus", fetchDataOnFocus);
 
-    // Nettoyez l'écouteur lors du démontage du composant
+    // Nettoie l'écouteur lors du démontage du composant
     return () => {
       unsubscribeFocus();
     };
-  }, [navigation]); // Assurez-vous d'inclure navigation dans les dépendances si vous utilisez useEffect
+  }, [navigation]); //dépendances
 
   function renderProfiles({ item }) {
     console.log(item);
@@ -126,16 +175,21 @@ export default function Produits({ route }) {
         <View style={StyleFiche.buttonContainer}>
           <TouchableOpacity
             style={StyleFiche.addToCartButton}
-            onPress={() => addToCart(item, "decrement")}
+            onPress={() => updateCart(item, "decrement", item.quantite - 1)}
           >
             <Text style={StyleFiche.buttonText}>-</Text>
           </TouchableOpacity>
-          <TextInput style={StyleFiche.quantityInput}>
-            {item.quantite}
-          </TextInput>
+          <TextInput
+            style={StyleFiche.quantityInput}
+            value={item.quantite.toString()}
+            onChangeText={(val) => updateCart(item, "", val)}
+            keyboardType="numeric"
+          />
           <TouchableOpacity
             style={StyleFiche.addToCartButton}
-            onPress={() => addToCart(item, "increment")}
+            onPress={() =>
+              updateCart(item, "increment", parseInt(quantiteInput, 10) + 1)
+            }
           >
             <Text style={StyleFiche.buttonText}>+</Text>
           </TouchableOpacity>
@@ -166,11 +220,12 @@ export default function Produits({ route }) {
         </TouchableOpacity>
       )}
 
-      <View style={GlobalStyles.container}>
+      <KeyboardAwareScrollView style={GlobalStyles.container}>
         {isLoading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : data && data.length > 0 ? (
           <FlatList
+            scrollEnabled={false}
             data={data}
             renderItem={renderProfiles}
             keyExtractor={(item) => item.reference.toString()}
@@ -178,7 +233,7 @@ export default function Produits({ route }) {
         ) : (
           <Text>Aucune donnée disponible.</Text>
         )}
-      </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 }
