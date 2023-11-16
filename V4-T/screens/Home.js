@@ -94,9 +94,6 @@ export default function Home() {
         keyExtractor={(item) => item.reference}
         style = {{marginTop: 20}}
         renderItem={renderData}
-         
-        
-        
       />
       
     </View>
