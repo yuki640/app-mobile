@@ -5,7 +5,6 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
 // Styles pour Home
 export const getHomeStyles = () => StyleSheet.create({
-  
   promotionItem: {
     width: screenWidth,
     height: screenHeight * 0.3,
