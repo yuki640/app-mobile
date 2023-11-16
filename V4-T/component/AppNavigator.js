@@ -9,7 +9,6 @@ import Home from "../screens/Home";
 import Produits from "../screens/Produits";
 import Login from "../screens/Login";
 import Compte from "../screens/Compte";
-import Navbar from "./Navbar";
 import FicheProduit from "../screens/FicheProduit";
 import Panier from "../screens/Panier";
 import Register from "../screens/Register";
@@ -39,39 +38,54 @@ function AppNavigator() {
   function ProduitsTous() {
     return (
       <Stack.Navigator initialRouteName={Produits}>
-        <Stack.Screen name="Liste des Produits" component={Produits} />
-        <Stack.Screen name="FicheProduit" component={FicheProduit}
-        options={{ 
-          headerTintColor: 'blue', // Change la couleur des éléments de l'en-tête (titre, boutons)
-        }}
-         />
+        <Stack.Screen
+          name="Liste des Produits"
+          component={Produits}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="FicheProduit"
+          component={FicheProduit}
+          options={{
+            headerTintColor: "blue", // Change la couleur des éléments de l'en-tête (titre, boutons)
+          }}
+        />
       </Stack.Navigator>
     );
   }
   function HomeTous() {
     return (
       <Stack.Navigator initialRouteName={Home}>
-  <Stack.Screen name="Accueil" component={Home} />
-  <Stack.Screen 
-    name="FicheProduit" 
-    component={FicheProduit} 
-    options={{ 
-      headerTintColor: 'blue', // Change la couleur des éléments de l'en-tête (titre, boutons)
-    }}
-  />
-</Stack.Navigator>
-
+        <Stack.Screen
+          name="Accueil"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="FicheProduit"
+          component={FicheProduit}
+          options={{
+            headerTintColor: "blue", // Change la couleur des éléments de l'en-tête (titre, boutons)
+          }}
+        />
+      </Stack.Navigator>
     );
   }
   function Connexion() {
     return (
       <Stack.Navigator initialRouteName={Login}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register}
-        options={{ 
-          headerTintColor: 'blue', // Change la couleur des éléments de l'en-tête (titre, boutons)
-        }}
-         />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{
+            headerTintColor: "blue", // Change la couleur des éléments de l'en-tête (titre, boutons)
+          }}
+        />
       </Stack.Navigator>
     );
   }
@@ -99,45 +113,13 @@ function AppNavigator() {
           },
         })}
       >
-        <Tab.Screen
-          name="Home"
-          component={HomeTous}
-          options={() => ({
-            header: (props) => <Navbar {...props} title="Accueil" />,
-          })}
-        />
-        <Tab.Screen
-          name="Produits"
-          component={ProduitsTous}
-          options={() => ({
-            header: (props) => <Navbar {...props} title="Produits" />,
-          })}
-        />
-        <Tab.Screen
-          name="Panier"
-          component={Panier}
-          options={() => ({
-            header: (props) => <Navbar {...props} title="Panier" />,
-          })}
-        />
+        <Tab.Screen name="Home" component={HomeTous} />
+        <Tab.Screen name="Produits" component={ProduitsTous} />
+        <Tab.Screen name="Panier" component={Panier} />
         {token.length === 1 && (
-          <Tab.Screen
-            name="Connexion"
-            component={Connexion}
-            options={() => ({
-              header: (props) => <Navbar {...props} title="Connexion" />,
-            })}
-          />
+          <Tab.Screen name="Connexion" component={Connexion} />
         )}
-        {token.length > 1 && (
-          <Tab.Screen
-            name="Compte"
-            component={Compte}
-            options={() => ({
-              header: (props) => <Navbar {...props} title="Mon Compte" />,
-            })}
-          />
-        )}
+        {token.length > 1 && <Tab.Screen name="Compte" component={Compte} />}
       </Tab.Navigator>
     </NavigationContainer>
   );
