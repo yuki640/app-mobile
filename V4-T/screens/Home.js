@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import React, { useState, useEffect, useRef  } from "react";
-import { View, Text, Image, TouchableOpacity, FlatList, Dimensions } from "react-native";
-import { getHomeStyles } from '../styles/AppStyles';
-=======
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -16,7 +11,6 @@ import {
 } from "react-native";
 import { getHomeStyles } from "../styles/AppStyles";
 import { GlobalStyles } from "../styles/AppStyles";
->>>>>>> origin/Thomas
 
 // Ici, on récupère les dimensions de l'écran
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -34,28 +28,6 @@ export default function Home() {
   const flatListRef = useRef(); // Référence à la FlatList
   const [data, setData] = useState([]);
 
-<<<<<<< HEAD
-
-  function ListePromo() {
-      const fetchDataApi = async () => {
-        try {
-          console.log("Début de la récupération des données depuis l'API");
-          const newData = await fetch(
-            "https://api.devroomservice.v70208.campus-centre.fr/listePromo"
-          );
-          console.log("Données récupérées avec succès depuis l'API");
-          let jsonData = "";
-          jsonData = await newData.json();
-          console.log(jsonData)
-          setData(jsonData);
-        } catch (error) {
-          console.error("Erreur lors de la récupération des données", error);
-          setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
-        }
-      };
-  };
-
-=======
   async function ListePromo() {
     try {
       console.log("Début de la récupération des données depuis l'API");
@@ -72,7 +44,6 @@ export default function Home() {
       setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
     }
   }
->>>>>>> origin/Thomas
 
   useEffect(() => {
     ListePromo();
@@ -143,6 +114,7 @@ export default function Home() {
       </View>
 
       <FlatList
+        scrollEnabled={false}
         data={data}
         keyExtractor={(item) => item.reference}
         style={{ marginTop: 20 }}
