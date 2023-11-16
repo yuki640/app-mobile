@@ -44,7 +44,6 @@ export const GlobalStyles = StyleSheet.create({
    container: {
     
    },
- 
    // Style pour la page de connexion
    containerLogin: {
      flex: 1,

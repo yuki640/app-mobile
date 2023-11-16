@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef  } from "react";
 import { View, Text, Image, TouchableOpacity, FlatList, Dimensions } from "react-native";
 import { getHomeStyles } from '../styles/AppStyles';
-import { GlobalStyles } from "../styles/AppStyles";
-
 
 // Ici, on récupère les dimensions de l'écran
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-
 
 const promotionsData = [
   { id: 1, image: require("../images/choco1.png") },
@@ -38,9 +35,6 @@ export default function Home() {
           console.error("Erreur lors de la récupération des données", error);
           setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
         }
-    
-       
-
       };
   };
 
