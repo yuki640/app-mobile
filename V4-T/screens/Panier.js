@@ -37,7 +37,7 @@ export default function Produits({ route }) {
         console.log("Début de la récupération des données depuis l'API");
 
         const newData = await fetch(
-          `http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/lookPanier?token=${Token}`,
+          `https://api.devroomservice.v70208.campus-centre.fr/lookPanier?token=${Token}`,
           {
             method: "GET",
           },
@@ -63,31 +63,31 @@ export default function Produits({ route }) {
   }, []);
 
   function renderProfiles({ item }) {
-  return (
-    <View style={[GlobalStyles.itemContainer, StyleFiche.itemContainer]}>
-      <Image source={{ uri: item.image }} style={StyleFiche.productImage} />
-      <View style={StyleFiche.productInfoContainer}>
-        <Text style={GlobalStyles.title}>{item.designation}</Text>
-        <Text style={GlobalStyles.text}>{item.total_prix}€</Text>
+    return (
+      <View style={[GlobalStyles.itemContainer, StyleFiche.itemContainer]}>
+        <Image source={{ uri: item.image }} style={StyleFiche.productImage} />
+        <View style={StyleFiche.productInfoContainer}>
+          <Text style={GlobalStyles.title}>{item.designation}</Text>
+          <Text style={GlobalStyles.text}>{item.total_prix}€</Text>
+        </View>
+        <View style={StyleFiche.buttonContainer}>
+          <TouchableOpacity
+            style={StyleFiche.addToCartButton}
+            onPress={() => addToCart(item, "decrement")}
+          >
+            <Text style={StyleFiche.buttonText}>-</Text>
+          </TouchableOpacity>
+          <Text style={StyleFiche.quantityText}>{item.quantite}</Text>
+          <TouchableOpacity
+            style={StyleFiche.addToCartButton}
+            onPress={() => addToCart(item, "increment")}
+          >
+            <Text style={StyleFiche.buttonText}>+</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={StyleFiche.buttonContainer}>
-        <TouchableOpacity
-          style={StyleFiche.addToCartButton}
-          onPress={() => addToCart(item, "decrement")}
-        >
-          <Text style={StyleFiche.buttonText}>-</Text>
-        </TouchableOpacity>
-        <Text style={StyleFiche.quantityText}>{item.quantite}</Text>
-        <TouchableOpacity
-          style={StyleFiche.addToCartButton}
-          onPress={() => addToCart(item, "increment")}
-        >
-          <Text style={StyleFiche.buttonText}>+</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
+    );
+  }
 
   return (
     <View style={GlobalStyles.container}>

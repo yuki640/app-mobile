@@ -35,13 +35,13 @@ export default function Produits() {
 
       if (produitType === "Tous") {
         apiEndpoint =
-          "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/products";
+          "https://api.devroomservice.v70208.campus-centre.fr/products";
       } else if (produitType === "New") {
         apiEndpoint =
-          "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/newProducts";
+          "https://api.devroomservice.v70208.campus-centre.fr/newProducts";
       } else if (produitType === "Promo") {
         apiEndpoint =
-          "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/listePromo";
+          "https://api.devroomservice.v70208.campus-centre.fr/listePromo";
       }
       console.log("api", apiEndpoint);
       if (apiEndpoint) {

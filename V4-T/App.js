@@ -19,7 +19,7 @@ export default function App() {
       if (storedToken) {
         // Envoi de la requête à l'API pour vérifier le token
         const response = await fetch(
-          "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/verify-token",
+          "https://api.devroomservice.v70208.campus-centre.fr/verify-token",
           {
             method: "POST",
             headers: {
@@ -37,7 +37,7 @@ export default function App() {
           const responseSupp = await SecureStore.deleteItemAsync("token");
           if (!responseSupp) {
             console.log(
-              "Le token n'a pas été supprimé du SecureStore car il est valide",
+              "Le token n'a pas été supprimé du SecureStore car il y a eu un probléme",
             );
           }
         } else {

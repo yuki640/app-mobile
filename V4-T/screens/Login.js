@@ -26,7 +26,7 @@ export default function Login() {
     /*On appelle l'api pour vérifier les infos de connexion */
     try {
       const response = await fetch(
-        "http://94.247.183.122/plesk-site-preview/api.devroomservice.v70208.campus-centre.fr/https/94.247.183.122/login",
+        "https://api.devroomservice.v70208.campus-centre.fr/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -75,6 +75,7 @@ export default function Login() {
           placeholder="Entrez votre email"
           placeholderTextColor="#003f5c"
           onChangeText={(val) => setMail(val)}
+          returnKeyType="done"
         ></TextInput>
       </View>
       <View style={GlobalStyles.inputView}>
@@ -84,6 +85,7 @@ export default function Login() {
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
           onChangeText={(val) => setMotdepasse(val)}
+          returnKeyType="done"
         ></TextInput>
       </View>
       <TouchableOpacity onPress={handleLogin} style={GlobalStyles.loginBtn}>
