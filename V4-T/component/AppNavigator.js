@@ -40,7 +40,11 @@ function AppNavigator() {
     return (
       <Stack.Navigator initialRouteName={Produits}>
         <Stack.Screen name="Liste des Produits" component={Produits} />
-        <Stack.Screen name="FicheProduit" component={FicheProduit} />
+        <Stack.Screen name="FicheProduit" component={FicheProduit}
+        options={{ 
+          headerTintColor: 'blue', // Change la couleur des éléments de l'en-tête (titre, boutons)
+        }}
+         />
       </Stack.Navigator>
     );
   }
@@ -52,7 +56,7 @@ function AppNavigator() {
     name="FicheProduit" 
     component={FicheProduit} 
     options={{ 
-      headerTintColor: 'black', // Change la couleur des éléments de l'en-tête (titre, boutons)
+      headerTintColor: 'blue', // Change la couleur des éléments de l'en-tête (titre, boutons)
     }}
   />
 </Stack.Navigator>
@@ -63,7 +67,11 @@ function AppNavigator() {
     return (
       <Stack.Navigator initialRouteName={Login}>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Register" component={Register}
+        options={{ 
+          headerTintColor: 'blue', // Change la couleur des éléments de l'en-tête (titre, boutons)
+        }}
+         />
       </Stack.Navigator>
     );
   }
