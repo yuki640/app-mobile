@@ -9,7 +9,6 @@ import Home from "../screens/Home";
 import Produits from "../screens/Produits";
 import Login from "../screens/Login";
 import Compte from "../screens/Compte";
-import Navbar from "./Navbar";
 import FicheProduit from "../screens/FicheProduit";
 import Panier from "../screens/Panier";
 import Register from "../screens/Register";
@@ -102,40 +101,25 @@ function AppNavigator() {
         <Tab.Screen
           name="Home"
           component={HomeTous}
-          options={() => ({
-            header: (props) => <Navbar {...props} title="Accueil" />,
-          })}
         />
         <Tab.Screen
           name="Produits"
           component={ProduitsTous}
-          options={() => ({
-            header: (props) => <Navbar {...props} title="Produits" />,
-          })}
         />
         <Tab.Screen
           name="Panier"
           component={Panier}
-          options={() => ({
-            header: (props) => <Navbar {...props} title="Panier" />,
-          })}
         />
         {token.length === 1 && (
           <Tab.Screen
             name="Connexion"
             component={Connexion}
-            options={() => ({
-              header: (props) => <Navbar {...props} title="Connexion" />,
-            })}
           />
         )}
         {token.length > 1 && (
           <Tab.Screen
             name="Compte"
             component={Compte}
-            options={() => ({
-              header: (props) => <Navbar {...props} title="Mon Compte" />,
-            })}
           />
         )}
       </Tab.Navigator>
