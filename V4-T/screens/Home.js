@@ -13,8 +13,6 @@ import { useNavigation } from "@react-navigation/native";
 import { getHomeStyles } from "../styles/AppStyles";
 import { GlobalStyles } from "../styles/AppStyles";
 
-
-
 // Ici, on récupère les dimensions de l'écran
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -34,14 +32,13 @@ export default function Home() {
 
   async function ListePromo() {
     try {
-      console.log("Début de la récupération des données depuis l'API");
+      //console.log("Début de la récupération des données depuis l'API");
       const newData = await fetch(
         "https://api.devroomservice.v70208.campus-centre.fr/listePromo",
       );
-      console.log("Données récupérées avec succès depuis l'API");
+      //console.log("Données récupérées avec succès depuis l'API");
       let jsonData = "";
       jsonData = await newData.json();
-      console.log(jsonData);
       setData(jsonData);
     } catch (error) {
       console.error("Erreur lors de la récupération des données", error);
@@ -112,9 +109,10 @@ export default function Home() {
         <Text style={HomeStyles.welcomeText}>
           Bienvenue sur notre application de e-commerce !
         </Text>
-        <TouchableOpacity 
-        // onPress={navigation.navigate("Produits")} 
-           style={HomeStyles.shopNowButton}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Produits")}
+          style={HomeStyles.shopNowButton}
+        >
           <Text style={HomeStyles.shopNowButtonText}>Commencez vos achats</Text>
         </TouchableOpacity>
       </View>
