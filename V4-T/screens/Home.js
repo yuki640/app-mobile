@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, FlatList, Dimensions } from "react-native";
 import { getHomeStyles } from '../styles/AppStyles';
 
+// Ici, on récupère les dimensions de l'écran
+const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+
 const promotionsData = [
   { id: 1, image: require("../images/choco1.png") },
   { id: 2, image: require("../images/choco2.jpg") },
@@ -11,14 +14,12 @@ const promotionsData = [
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const HomeStyles = getHomeStyles();
-  const { width: screenWidth } = Dimensions.get("window");
+  const HomeStyles = getHomeStyles(screenWidth, screenHeight); // Passez screenWidth et screenHeight ici si nécessaire
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % promotionsData.length);
     }, 8000);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -39,6 +40,7 @@ export default function Home() {
             <Image source={item.image} style={HomeStyles.promotionImage} resizeMode="cover" />
           </TouchableOpacity>
         )}
+        style={{ height: screenHeight * 0.3 }} // Hauteur ajustée ici
       />
       <View style={HomeStyles.body}>
         <Text style={HomeStyles.welcomeText}>Bienvenue sur notre application de e-commerce !</Text>

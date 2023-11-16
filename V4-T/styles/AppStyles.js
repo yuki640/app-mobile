@@ -5,31 +5,30 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
 // Styles pour Home
 export const getHomeStyles = () => StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    paddingTop: 10,
+    // Peut-être enlever le paddingTop si nécessaire
   },
   promotionItem: {
     width: screenWidth,
-    height: screenHeight * 0.3,
-    marginBottom: -250,
+    height: screenHeight * 0.25, // Assurez-vous que cette hauteur est correcte et correspond à la hauteur des images
+    // Enlevez la marge négative si elle est toujours là
   },
   promotionImage: {
-    flex: 1,
-    width: undefined,
-    height: undefined,
+    //width automatique
+
+
     borderRadius: 20,
   },
   body: {
-    flex: 1,
-    justifyContent: "center",
+    // Ce style devrait être suffisant pour centrer le contenu sans étirer
     alignItems: "center",
     paddingHorizontal: 20,
   },
   welcomeText: {
     fontSize: 18,
+    // Réduire la marge du bas si nécessaire
     marginBottom: 20,
   },
   shopNowButton: {
@@ -44,6 +43,7 @@ export const getHomeStyles = () => StyleSheet.create({
     fontSize: 16,
   },
 });
+
 
 // Styles globaux
 export const GlobalStyles = StyleSheet.create({
