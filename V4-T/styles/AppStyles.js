@@ -88,9 +88,11 @@ export const GlobalStyles = StyleSheet.create({
   // Style pour un élément de liste
   item: {
     backgroundColor: "white",
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    flex: 1, // Utilisez flex pour occuper l'espace disponible
+    margin: 8, // Vous pouvez ajuster les marges comme nécessaire
+    aspectRatio: 1, // ou un autre ratio selon vos besoins
+    padding: 8,
+    maxWidth: (screenWidth / 2) - (8 * 2), // Ajustez selon votre design pour l'espacement
     borderRadius: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -112,16 +114,18 @@ export const GlobalStyles = StyleSheet.create({
   },
   // Style pour le texte général
   text: {
-    fontSize: 20,
+    fontSize: 8, // Adaptez la taille du texte selon vos besoins
     fontWeight: "bold",
     color: "#333",
+    textAlign: 'center', // Centrez le texte
+    marginTop: 8, // Ajoutez un espace au-dessus du texte si nécessaire
   },
   // Style pour les images
   image: {
-    width: 200,
-    height: 200,
-    resizeMode: "contain",
-    marginTop: 10,
+    width: '100%', // L'image doit occuper toute la largeur de l'élément
+    height: undefined, // Hauteur non définie pour permettre à l'aspectRatio de prendre le relais
+    aspectRatio: 1, // Gardez le même ratio que l'élément pour éviter les déformations
+    resizeMode: 'cover', // 'cover' pour éviter les distorsions
   },
   // Style pour la barre de navigation
   containerNav: {

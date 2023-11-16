@@ -13,6 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 import { getHomeStyles } from "../styles/AppStyles";
 import { GlobalStyles } from "../styles/AppStyles";
 
+
+
 // Ici, on récupère les dimensions de l'écran
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -32,13 +34,14 @@ export default function Home() {
 
   async function ListePromo() {
     try {
-      //console.log("Début de la récupération des données depuis l'API");
+      console.log("Début de la récupération des données depuis l'API");
       const newData = await fetch(
         "https://api.devroomservice.v70208.campus-centre.fr/listePromo",
       );
-      //console.log("Données récupérées avec succès depuis l'API");
+      console.log("Données récupérées avec succès depuis l'API");
       let jsonData = "";
       jsonData = await newData.json();
+      console.log(jsonData);
       setData(jsonData);
     } catch (error) {
       console.error("Erreur lors de la récupération des données", error);
@@ -63,17 +66,13 @@ export default function Home() {
 
   function renderData({ item }) {
     return (
-      <Pressable
-        onPress={() => navigation.navigate("FicheProduit", { item: item })}
-      >
+      <Pressable onPress={() => navigation.navigate("FicheProduit", { item: item })}>
         <View style={GlobalStyles.item}>
+          <Image
+            source={{ uri: item.image }}
+            style={GlobalStyles.image}
+          />
           <Text style={GlobalStyles.text}>{item.designation}</Text>
-          {item.image && (
-            <Image
-              source={{ uri: item.image }}
-              style={{ width: 300, height: 200 }}
-            />
-          )}
         </View>
       </Pressable>
     );
@@ -109,21 +108,26 @@ export default function Home() {
         <Text style={HomeStyles.welcomeText}>
           Bienvenue sur notre application de e-commerce !
         </Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Produits")}
-          style={HomeStyles.shopNowButton}
-        >
+        <TouchableOpacity 
+        // onPress={navigation.navigate("Produits")} 
+           style={HomeStyles.shopNowButton}>
           <Text style={HomeStyles.shopNowButtonText}>Commencez vos achats</Text>
         </TouchableOpacity>
       </View>
 
       <FlatList
-        scrollEnabled={false}
-        data={data}
-        keyExtractor={(item) => item.reference}
-        style={{ marginTop: 20 }}
-        renderItem={renderData}
-      />
+  scrollEnabled={false}
+  data={data}
+  numColumns={2}
+  keyExtractor={(item) => item.reference}
+  style={{ marginTop: 20 }}
+  contentContainerStyle={{
+    paddingBottom: 20,
+    justifyContent: 'space-between', // Ajoutez ceci pour justifier le contenu
+    paddingHorizontal: 10, // Ajustez en fonction de la marge souhaitée
+  }}
+  renderItem={renderData}
+/>
     </ScrollView>
   );
 }

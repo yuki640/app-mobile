@@ -113,37 +113,11 @@ function AppNavigator() {
           },
         })}
       >
-<<<<<<< HEAD
-        <Tab.Screen
-          name="Home"
-          component={HomeTous}
-        />
-        <Tab.Screen
-          name="Produits"
-          component={ProduitsTous}
-        />
-        <Tab.Screen
-          name="Panier"
-          component={Panier}
-        />
-        {token.length === 1 && (
-          <Tab.Screen
-            name="Connexion"
-            component={Connexion}
-          />
-        )}
-        {token.length > 1 && (
-          <Tab.Screen
-            name="Compte"
-            component={Compte}
-          />
-=======
         <Tab.Screen name="Home" component={HomeTous} />
         <Tab.Screen name="Produits" component={ProduitsTous} />
         <Tab.Screen name="Panier" component={Panier} />
         {token.length === 1 && (
           <Tab.Screen name="Connexion" component={Connexion} />
->>>>>>> origin/Thomas
         )}
         {token.length > 1 && <Tab.Screen name="Compte" component={Compte} />}
       </Tab.Navigator>
