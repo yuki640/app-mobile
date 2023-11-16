@@ -11,11 +11,13 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GlobalStyles, StyleFiche } from "../styles/AppStyles";
 import * as SecureStore from "expo-secure-store";
-import { Entypo, FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Produits({ route }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigation = useNavigation();
 
   const addToCart = (item, operation) => {
     const updatedData = data.map((product) => {
@@ -100,8 +102,17 @@ export default function Produits({ route }) {
       }
     };
 
-    fetchDataApi(); // Charge les données depuis l'API
-  }, []);
+    const fetchDataOnFocus = async () => {
+      await fetchDataApi();
+    };
+
+    const unsubscribeFocus = navigation.addListener("focus", fetchDataOnFocus);
+
+    // Nettoyez l'écouteur lors du démontage du composant
+    return () => {
+      unsubscribeFocus();
+    };
+  }, [navigation]); // Assurez-vous d'inclure navigation dans les dépendances si vous utilisez useEffect
 
   function renderProfiles({ item }) {
     console.log(item);
@@ -141,18 +152,20 @@ export default function Produits({ route }) {
 
   return (
     <View>
-      <View>
+      {data && data.length > 0 && (
         <TouchableOpacity
           style={StyleFiche.addToCartButton}
           onPress={async () => {
             const token = await SecureStore.getItemAsync("token");
             await removeToCart(token, "");
+            setData([]); // Supprime toutes les données du panier
           }}
         >
           <Text style={StyleFiche.buttonText}>Vider le panier</Text>
           <FontAwesome5 name="cart-plus" size={20} color="#ffffff" />
         </TouchableOpacity>
-      </View>
+      )}
+
       <View style={GlobalStyles.container}>
         {isLoading ? (
           <ActivityIndicator size="large" color="#0000ff" />
