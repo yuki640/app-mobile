@@ -155,12 +155,14 @@ export default function Produits() {
           </Pressable>
           {isPickerOpen && (
             <Picker
-              //style={{ textAlign: "center", backgroundColor: "#0000ff" }}
               mode="dropdown"
               selectedValue={produitType}
               onValueChange={(itemValue, itemIndex) => {
                 setProduitType(itemValue);
                 handleChoose();
+              }}
+              style={{
+                width: 400, // Ajustez la largeur selon vos besoins
               }}
             >
               <Picker.Item label="Tous les produits" value="Tous" />
