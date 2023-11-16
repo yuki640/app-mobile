@@ -129,7 +129,6 @@ export const GlobalStyles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingTop: 60,
-
   },
   // Style pour le titre de la barre de navigation
   titleNav: {
@@ -234,7 +233,6 @@ export const StyleFiche = StyleSheet.create({
   // Style pour le texte du bouton
   buttonText: {
     color: "#ffffff",
-    marginRight: "center",
   },
   // Style pour le conteneur des boutons
   buttonContainer: {
