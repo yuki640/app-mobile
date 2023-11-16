@@ -38,39 +38,54 @@ function AppNavigator() {
   function ProduitsTous() {
     return (
       <Stack.Navigator initialRouteName={Produits}>
-        <Stack.Screen name="Liste des Produits" component={Produits} />
-        <Stack.Screen name="FicheProduit" component={FicheProduit}
-        options={{ 
-          headerTintColor: 'blue', // Change la couleur des éléments de l'en-tête (titre, boutons)
-        }}
-         />
+        <Stack.Screen
+          name="Liste des Produits"
+          component={Produits}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="FicheProduit"
+          component={FicheProduit}
+          options={{
+            headerTintColor: "blue", // Change la couleur des éléments de l'en-tête (titre, boutons)
+          }}
+        />
       </Stack.Navigator>
     );
   }
   function HomeTous() {
     return (
       <Stack.Navigator initialRouteName={Home}>
-  <Stack.Screen name="Accueil" component={Home} />
-  <Stack.Screen 
-    name="FicheProduit" 
-    component={FicheProduit} 
-    options={{ 
-      headerTintColor: 'blue', // Change la couleur des éléments de l'en-tête (titre, boutons)
-    }}
-  />
-</Stack.Navigator>
-
+        <Stack.Screen
+          name="Accueil"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="FicheProduit"
+          component={FicheProduit}
+          options={{
+            headerTintColor: "blue", // Change la couleur des éléments de l'en-tête (titre, boutons)
+          }}
+        />
+      </Stack.Navigator>
     );
   }
   function Connexion() {
     return (
       <Stack.Navigator initialRouteName={Login}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register}
-        options={{ 
-          headerTintColor: 'blue', // Change la couleur des éléments de l'en-tête (titre, boutons)
-        }}
-         />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{
+            headerTintColor: "blue", // Change la couleur des éléments de l'en-tête (titre, boutons)
+          }}
+        />
       </Stack.Navigator>
     );
   }
@@ -98,6 +113,7 @@ function AppNavigator() {
           },
         })}
       >
+<<<<<<< HEAD
         <Tab.Screen
           name="Home"
           component={HomeTous}
@@ -121,7 +137,15 @@ function AppNavigator() {
             name="Compte"
             component={Compte}
           />
+=======
+        <Tab.Screen name="Home" component={HomeTous} />
+        <Tab.Screen name="Produits" component={ProduitsTous} />
+        <Tab.Screen name="Panier" component={Panier} />
+        {token.length === 1 && (
+          <Tab.Screen name="Connexion" component={Connexion} />
+>>>>>>> origin/Thomas
         )}
+        {token.length > 1 && <Tab.Screen name="Compte" component={Compte} />}
       </Tab.Navigator>
     </NavigationContainer>
   );
