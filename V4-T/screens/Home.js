@@ -122,9 +122,7 @@ export default function Home() {
   keyExtractor={(item) => item.reference}
   style={{ marginTop: 20 }}
   contentContainerStyle={{
-    paddingBottom: 20,
     justifyContent: 'space-between', // Ajoutez ceci pour justifier le contenu
-    paddingHorizontal: 10, // Ajustez en fonction de la marge souhaitée
   }}
   renderItem={renderData}
 />

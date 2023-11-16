@@ -66,7 +66,7 @@ export default function Produits() {
     } catch (error) {
       console.error(
         "Erreur lors de la récupération des données depuis l'API",
-        error,
+        error
       );
       throw error;
     }
@@ -96,7 +96,7 @@ export default function Produits() {
     } catch (error) {
       console.error(
         "Erreur lors de la récupération des données locales",
-        error,
+        error
       );
       throw error;
     }
@@ -131,7 +131,7 @@ export default function Produits() {
           {item.image && (
             <Image
               source={{ uri: item.image }}
-              style={{ width: 300, height: 200 }}
+              style={GlobalStyles.image}
             />
           )}
         </View>
@@ -171,10 +171,14 @@ export default function Produits() {
             </Picker>
           )}
           <FlatList
+            numColumns={2}
             data={data}
             renderItem={renderProfiles}
             keyExtractor={(item) => item.reference}
             style={{ marginTop: 20 }}
+            contentContainerStyle={{
+              paddingBottom: 10, // Ajoutez du padding pour que le dernier élément soit entièrement visible
+            }}
           />
         </View>
       ) : (
