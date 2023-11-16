@@ -6,6 +6,7 @@ import {
   Image,
   ActivityIndicator,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GlobalStyles, StyleFiche } from "../styles/AppStyles";
@@ -77,7 +78,7 @@ export default function Produits({ route }) {
           >
             <Text style={StyleFiche.buttonText}>-</Text>
           </TouchableOpacity>
-          <Text style={StyleFiche.quantityText}>{item.quantite}</Text>
+          <TextInput style={StyleFiche.quantityText}>{item.quantite}</TextInput>
           <TouchableOpacity
             style={StyleFiche.addToCartButton}
             onPress={() => addToCart(item, "increment")}
