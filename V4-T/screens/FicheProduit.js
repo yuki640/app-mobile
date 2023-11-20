@@ -12,50 +12,44 @@ const FicheProduit = ({ route }) => {
     alert(message);
   };
   const addToCart = async () => {
-    try {
-      const quantiteNumber = parseInt(quantity, 10);
-      const referenceString = reference.toString();
-      const token = await SecureStore.getItemAsync("token");
-      const prixUHTfloat = parseFloat(prixUHT);
+    const quantiteNumber = parseInt(quantity, 10);
+    const referenceString = reference.toString();
+    const token = await SecureStore.getItemAsync("token");
+    const prixUHTfloat = parseFloat(prixUHT);
+    if (token) {
+      try {
+        console.log("Début de l'update de l'API");
+        const Response = await fetch(
+          "https://api.devroomservice.v70208.campus-centre.fr/addPanier",
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              token,
+              total_prix: prixUHTfloat,
+              reference: referenceString,
+              quantite: quantiteNumber,
+            }),
+          },
+        );
+        console.log("Données récupérées avec succès depuis l'API");
+        console.log("Code de réponse :", Response.status);
+        if (Response.status === 200) {
+          showErrorAlert("Le produit a bien été ajouté au panier");
+        }
+        if (Response.status !== 200) {
+          const jsonResponse = await Response.json();
+          console.log(jsonResponse);
 
-      console.log("Début de l'update de l'API");
-      console.log(
-        `token : ${token}  reference:${referenceString} quantite:${quantiteNumber} total_prix:${prixUHTfloat}`,
-      );
-      console.log(
-        `structure : ${JSON.stringify({
-          token,
-          total_prix: prixUHTfloat,
-          reference: referenceString,
-          quantite: quantiteNumber,
-        })}`,
-      );
-      const Response = await fetch(
-        "https://api.devroomservice.v70208.campus-centre.fr/addPanier",
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            token,
-            total_prix: prixUHTfloat,
-            reference: referenceString,
-            quantite: quantiteNumber,
-          }),
-        },
-      );
-      console.log("Données récupérées avec succès depuis l'API");
-      console.log("Code de réponse :", Response.status);
-      if (Response.status === 200) {
-        showErrorAlert("Le produit a bien été ajouté au panier");
+          showErrorAlert("Le produit n'a pas été ajouté au panier");
+        }
+      } catch (error) {
+        console.error("Erreur lors de l'update de la table panier", error);
       }
-      if (Response.status !== 200) {
-        const jsonResponse = await Response.json();
-        console.log(jsonResponse);
-
-        showErrorAlert("Le produit n'a pas été ajouté au panier");
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'update de la table panier", error);
+    } else {
+      showErrorAlert(
+        "Veuillez vous connecter pour ajouter des articles dans votre panier !!",
+      );
     }
   };
 

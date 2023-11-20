@@ -19,6 +19,7 @@ export default function Produits({ route }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [quantiteInput, setQuantiteInput] = useState(""); // Ajoutez un état pour la valeur du TextInput
+  const [token, setToken] = useState(null);
   const navigation = useNavigation();
 
   const updateCart = async (item, operation, newQuantite) => {
@@ -123,31 +124,33 @@ export default function Produits({ route }) {
 
   useEffect(() => {
     const fetchDataApi = async () => {
-      try {
-        const Token = await SecureStore.getItemAsync("token");
+      const Token = await SecureStore.getItemAsync("token");
+      setToken(token);
+      if (token) {
+        try {
+          console.log("Début de la récupération des données depuis l'API");
 
-        console.log("Début de la récupération des données depuis l'API");
+          const newData = await fetch(
+            `https://api.devroomservice.v70208.campus-centre.fr/lookPanier?token=${Token}`,
+            {
+              method: "GET",
+            },
+          );
 
-        const newData = await fetch(
-          `https://api.devroomservice.v70208.campus-centre.fr/lookPanier?token=${Token}`,
-          {
-            method: "GET",
-          },
-        );
+          console.log("Données récupérées avec succès depuis l'API");
 
-        console.log("Données récupérées avec succès depuis l'API");
+          const jsonData = await newData.json();
+          const storageKey = "data_product_panier";
 
-        const jsonData = await newData.json();
-        const storageKey = "data_product_panier";
+          await AsyncStorage.setItem(storageKey, JSON.stringify(jsonData));
 
-        await AsyncStorage.setItem(storageKey, JSON.stringify(jsonData));
-
-        console.log("Données stockées avec succès dans AsyncStorage");
-        setData(jsonData);
-        setIsLoading(false); // Les données ont été chargées
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données", error);
-        setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
+          console.log("Données stockées avec succès dans AsyncStorage");
+          setData(jsonData);
+          setIsLoading(false); // Les données ont été chargées
+        } catch (error) {
+          console.error("Erreur lors de la récupération des données", error);
+          setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
+        }
       }
     };
 
@@ -206,34 +209,47 @@ export default function Produits({ route }) {
 
   return (
     <View>
-      {data && data.length > 0 && (
+      {!token ? (
         <TouchableOpacity
           style={StyleFiche.addToCartButton}
-          onPress={async () => {
-            const token = await SecureStore.getItemAsync("token");
-            await removeToCart(token, "");
-            setData([]); // Supprime toutes les données du panier
-          }}
+          onPress={() => navigation.navigate("Connexion")}
         >
-          <Text style={StyleFiche.buttonText}>Vider le panier</Text>
-          <FontAwesome5 name="cart-plus" size={20} color="#ffffff" />
+          <Text style={StyleFiche.buttonText}>
+            Vous n'êtes pas connecté. Connectez-vous ici.
+          </Text>
         </TouchableOpacity>
-      )}
+      ) : (
+        <>
+          {data && data.length > 0 && (
+            <TouchableOpacity
+              style={StyleFiche.addToCartButton}
+              onPress={async () => {
+                const token = await SecureStore.getItemAsync("token");
+                await removeToCart(token, "");
+                setData([]);
+              }}
+            >
+              <Text style={StyleFiche.buttonText}>Vider le panier</Text>
+              <FontAwesome5 name="cart-plus" size={20} color="#ffffff" />
+            </TouchableOpacity>
+          )}
 
-      <KeyboardAwareScrollView style={GlobalStyles.container}>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : data && data.length > 0 ? (
-          <FlatList
-            scrollEnabled={false}
-            data={data}
-            renderItem={renderProfiles}
-            keyExtractor={(item) => item.reference.toString()}
-          />
-        ) : (
-          <Text>Aucune donnée disponible.</Text>
-        )}
-      </KeyboardAwareScrollView>
+          <KeyboardAwareScrollView style={GlobalStyles.container}>
+            {isLoading ? (
+              <ActivityIndicator size="large" color="#0000ff" />
+            ) : data && data.length > 0 ? (
+              <FlatList
+                scrollEnabled={false}
+                data={data}
+                renderItem={renderProfiles}
+                keyExtractor={(item) => item.reference.toString()}
+              />
+            ) : (
+              <Text>Aucune donnée disponible.</Text>
+            )}
+          </KeyboardAwareScrollView>
+        </>
+      )}
     </View>
   );
 }

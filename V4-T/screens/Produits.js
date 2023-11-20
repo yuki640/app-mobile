@@ -66,7 +66,7 @@ export default function Produits() {
     } catch (error) {
       console.error(
         "Erreur lors de la récupération des données depuis l'API",
-        error
+        error,
       );
       throw error;
     }
@@ -96,7 +96,7 @@ export default function Produits() {
     } catch (error) {
       console.error(
         "Erreur lors de la récupération des données locales",
-        error
+        error,
       );
       throw error;
     }
@@ -129,10 +129,7 @@ export default function Produits() {
         <View style={GlobalStyles.item}>
           <Text style={GlobalStyles.text}>{item.designation}</Text>
           {item.image && (
-            <Image
-              source={{ uri: item.image }}
-              style={GlobalStyles.image}
-            />
+            <Image source={{ uri: item.image }} style={GlobalStyles.image} />
           )}
         </View>
       </Pressable>
@@ -175,7 +172,7 @@ export default function Produits() {
             data={data}
             renderItem={renderProfiles}
             keyExtractor={(item) => item.reference}
-            style={{ marginTop: 20 }}
+            style={{ marginTop: 20, height: 645 }}
             contentContainerStyle={{
               paddingBottom: 10, // Ajoutez du padding pour que le dernier élément soit entièrement visible
             }}

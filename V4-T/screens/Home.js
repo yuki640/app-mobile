@@ -13,8 +13,6 @@ import { useNavigation } from "@react-navigation/native";
 import { getHomeStyles } from "../styles/AppStyles";
 import { GlobalStyles } from "../styles/AppStyles";
 
-
-
 // Ici, on récupère les dimensions de l'écran
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -66,12 +64,11 @@ export default function Home() {
 
   function renderData({ item }) {
     return (
-      <Pressable onPress={() => navigation.navigate("FicheProduit", { item: item })}>
+      <Pressable
+        onPress={() => navigation.navigate("FicheProduit", { item: item })}
+      >
         <View style={GlobalStyles.item}>
-          <Image
-            source={{ uri: item.image }}
-            style={GlobalStyles.image}
-          />
+          <Image source={{ uri: item.image }} style={GlobalStyles.image} />
           <Text style={GlobalStyles.text}>{item.designation}</Text>
         </View>
       </Pressable>
@@ -108,24 +105,25 @@ export default function Home() {
         <Text style={HomeStyles.welcomeText}>
           Bienvenue sur notre application de e-commerce !
         </Text>
-        <TouchableOpacity 
-        // onPress={navigation.navigate("Produits")} 
-           style={HomeStyles.shopNowButton}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Produits")}
+          style={HomeStyles.shopNowButton}
+        >
           <Text style={HomeStyles.shopNowButtonText}>Commencez vos achats</Text>
         </TouchableOpacity>
       </View>
 
       <FlatList
-  scrollEnabled={false}
-  data={data}
-  numColumns={2}
-  keyExtractor={(item) => item.reference}
-  style={{ marginTop: 20 }}
-  contentContainerStyle={{
-    justifyContent: 'space-between', // Ajoutez ceci pour justifier le contenu
-  }}
-  renderItem={renderData}
-/>
+        scrollEnabled={false}
+        data={data}
+        numColumns={2}
+        keyExtractor={(item) => item.reference}
+        style={{ marginTop: 20 }}
+        contentContainerStyle={{
+          justifyContent: "space-between", // Ajoutez ceci pour justifier le contenu
+        }}
+        renderItem={renderData}
+      />
     </ScrollView>
   );
 }
