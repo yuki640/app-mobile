@@ -39,7 +39,7 @@ export default function Home() {
       console.log("Données récupérées avec succès depuis l'API");
       let jsonData = "";
       jsonData = await newData.json();
-      console.log(jsonData);
+      //console.log(jsonData);
       setData(jsonData);
     } catch (error) {
       console.error("Erreur lors de la récupération des données", error);

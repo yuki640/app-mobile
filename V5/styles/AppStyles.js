@@ -90,7 +90,7 @@ export const GlobalStyles = StyleSheet.create({
     backgroundColor: "white",
     flex: 1, // Utilisez flex pour occuper l'espace disponible
     margin: 8, // Vous pouvez ajuster les marges comme nécessaire
-    maxWidth: (screenWidth / 2) - (8 * 2), // Assurez que l'élément ne dépasse pas la moitié de l'écran moins les marges
+    maxWidth: screenWidth / 2 - 8 * 2, // Assurez que l'élément ne dépasse pas la moitié de l'écran moins les marges
     borderRadius: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -111,20 +111,23 @@ export const GlobalStyles = StyleSheet.create({
     marginBottom: 40,
   },
   // Style pour le texte général
+  titreCompte: {
+    fontSize: 18,
+  },
   text: {
     fontSize: 14, // Adaptez la taille du texte selon vos besoins
     fontWeight: "bold",
     color: "#333",
-    textAlign: 'center', // Centrez le texte
+    textAlign: "center", // Centrez le texte
     marginTop: 8, // Ajoutez un espace au-dessus du texte si nécessaire
     marginBottom: 8, // Ajoutez de l'espace en dessous du texte pour le dernier élément
   },
   // Style pour les images
   image: {
-    width: '100%', // L'image doit occuper toute la largeur de l'élément
+    width: "100%", // L'image doit occuper toute la largeur de l'élément
     height: undefined, // La hauteur sera déterminée par l'aspectRatio
     aspectRatio: 1, // Utilisez le même ratio que l'élément pour éviter les déformations
-    resizeMode: 'cover', // 'cover' pour éviter les distorsions
+    resizeMode: "cover", // 'cover' pour éviter les distorsions
     borderRadius: 8, // Vous pouvez ajouter des coins arrondis à l'image si nécessaire
   },
   // Style pour la barre de navigation
@@ -140,6 +143,7 @@ export const GlobalStyles = StyleSheet.create({
   },
   // Style pour le texte du compte
   textCompte: {
+    borderWidth: 5,
     fontSize: 18,
     fontWeight: "bold",
     color: "#333",
