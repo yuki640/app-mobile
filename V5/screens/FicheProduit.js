@@ -60,9 +60,6 @@ const FicheProduit = ({ route }) => {
           <Text style={GlobalStyles.title}>{designation}</Text>
         </View>
         <View>
-          <Text style={GlobalStyles.textCompte}></Text>
-        </View>
-        <View>
           {image && (
             <Image source={{ uri: image }} style={StyleFiche.productImage} />
           )}

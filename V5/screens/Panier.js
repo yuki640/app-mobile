@@ -124,14 +124,14 @@ export default function Produits({ route }) {
 
   useEffect(() => {
     const fetchDataApi = async () => {
-      const Token = await SecureStore.getItemAsync("token");
-      setToken(token);
-      if (token) {
+      let NewToken = await SecureStore.getItemAsync("token");
+      setToken(NewToken);
+      if (NewToken) {
         try {
           console.log("Début de la récupération des données depuis l'API");
 
           const newData = await fetch(
-            `https://api.devroomservice.v70208.campus-centre.fr/lookPanier?token=${Token}`,
+            `https://api.devroomservice.v70208.campus-centre.fr/lookPanier?token=${NewToken}`,
             {
               method: "GET",
             },
