@@ -1,0 +1,35 @@
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
+  header: {
+    backgroundColor: '#333',
+    paddingVertical: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerText: {
+    color: '#fff',
+    fontSize: 24,
+  },
+  menuContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap', // Allow items to wrap to the next line
+    justifyContent: 'space-around',
+    paddingVertical: 10,
+    backgroundColor: '#333',
+  },
+  menuItem: {
+    backgroundColor: '#555',
+    padding: 10,
+    borderRadius: 10, // This will give you rounded corners
+    margin: 5, // Add margin to create space between items
+    width: '45%', // Set width to 45% of the screen width
+  },
+  menuText: {
+    color: '#fff',
+    textAlign: 'center',
+  },
+  // ... Rest of your styles remain unchanged
+});
