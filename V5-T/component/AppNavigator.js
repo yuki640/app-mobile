@@ -90,6 +90,25 @@ function AppNavigator() {
       </Stack.Navigator>
     );
   }
+  function VueCompte() {
+    return (
+      <Stack.Navigator initialRouteName={Compte}>
+        <Stack.Screen
+          name="Compte"
+          component={Compte}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Profil"
+          component={Profil}
+          options={{
+            headerTintColor: "blue", // Change la couleur des éléments de l'en-tête (titre, boutons)
+          }}
+        />
+
+      </Stack.Navigator>
+    );
+  }
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -105,7 +124,7 @@ function AppNavigator() {
               iconName = "shoppingcart"; // Remplacez par l'icône souhaitée
             } else if (route.name === "Connexion") {
               iconName = "login"; // Remplacez par l'icône souhaitée
-            } else if (route.name === "Compte") {
+            } else if (route.name === "Mon Compte") {
               iconName = "user"; // Remplacez par l'icône souhaitée
             }
 
@@ -120,7 +139,7 @@ function AppNavigator() {
         {token.length === 1 && (
           <Tab.Screen name="Connexion" component={Connexion} />
         )}
-        {token.length > 1 && <Tab.Screen name="Compte" component={Compte} />}
+        {token.length > 1 && <Tab.Screen name="Mon Compte" component={VueCompte} />}
       </Tab.Navigator>
     </NavigationContainer>
   );
