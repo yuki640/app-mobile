@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
   // ... Rest of your styles remain unchanged
 });
 
-const CompteScreen = () => {
-  
+function CompteScreen () {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />

@@ -9,6 +9,7 @@ import Home from "../screens/Home";
 import Produits from "../screens/Produits";
 import Login from "../screens/Login";
 import Compte from "../screens/Compte";
+import Profil from "../screens/Profil";
 import FicheProduit from "../screens/FicheProduit";
 import Panier from "../screens/Panier";
 import Register from "../screens/Register";
