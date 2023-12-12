@@ -162,7 +162,43 @@ export default function Compte() {
   };
 
   const updateMotDePasse = async () => {
-    // Implémentez la mise à jour du mot de passe ici
+    // Vérification de la non-vacuité et non-espacement des champs
+    if (!isNotEmpty(Oldmotdepasse) || !isNotEmpty(Newmotdepasse)) {
+      showErrorAlert("Veuillez remplir tous les champs.");
+      return;
+    }
+    try {
+      const storedToken = await SecureStore.getItemAsync("token");
+
+      if (!storedToken) {
+        console.log("Le token n'a pas été trouvé.");
+        return;
+      }
+
+      const response = await fetch(
+        `https://api.devroomservice.v70208.campus-centre.fr/updatemotdepasse`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            codec: codec,
+            oldMotDePasse: Oldmotdepasse,
+            newMotDePasse: Newmotdepasse,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        showErrorAlert(
+          "Erreur lors de la mise à jour du profil :",
+          response.status,
+        );
+      } else {
+        showErrorAlert("Vos informations ont bien été modifiée");
+      }
+    } catch (error) {
+      showErrorAlert("Erreur lors de la mise à jour du profil :", error);
+    }
   };
 
   return (
