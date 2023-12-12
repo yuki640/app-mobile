@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  FlatList,
-  ActivityIndicator,
   Text,
   View,
   TextInput,
@@ -16,7 +14,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 export default function Compte() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [nom, setNom] = useState("");
   const [adresse, setAdresse] = useState("");
   const [cp, setCodePostal] = useState("");
@@ -29,12 +26,28 @@ export default function Compte() {
   const [codec, setCodec] = useState("");
   const [adrLivraison, setAdrLivraison] = useState("");
   const navigation = useNavigation(); // L'objet de navigation
+  const showErrorAlert = (message) => {
+    alert(message);
+  };
+  const isNotEmpty = (value) => {
+    return value.trim() !== ""; // Vérifie que la chaîne après suppression des espaces n'est pas vide
+  };
 
   useEffect(() => {
     fetchDataApi(); // Charge les données depuis l'API
+  }, []); // Pas de dépendances
+
+  useEffect(() => {
     if (data.length > 0) {
-      setMailActuel(data[0].mail); // Mise à jour de l'état après le rendu initial
+      setNom(data[0].nom); // Mise à jour de l'état après le rendu initial
+      setAdresse(data[0].adresse);
+      setCodePostal(data[0].cp);
+      setVille(data[0].ville);
+      setTelephone(data[0].telephone);
+      setMail(data[0].mail);
+      setMailActuel(data[0].mail);
       setCodec(data[0].codec);
+      setAdrLivraison(data[0].adrLivraison);
     }
   }, [data]);
 
@@ -44,7 +57,6 @@ export default function Compte() {
 
       if (!storedToken) {
         console.log("Le token n'a pas été trouvé.");
-        setLoading(false);
         return;
       }
       const response = await fetch(
@@ -60,17 +72,14 @@ export default function Compte() {
           "Erreur lors de la récupération des données :",
           response.status,
         );
-        setLoading(false);
         return;
       }
 
       const jsonData = await response.json();
       await AsyncStorage.setItem("data-compte", JSON.stringify(jsonData));
       setData(jsonData);
-      setLoading(false);
     } catch (error) {
       console.error("Erreur lors de la récupération des données :", error);
-      setLoading(false);
     }
   };
 
@@ -94,6 +103,20 @@ export default function Compte() {
   };
 
   const updateProfil = async () => {
+    // Vérification que les champs sont remplis et sans espaces
+    if (
+      !isNotEmpty(nom) ||
+      !isNotEmpty(adresse) ||
+      !isNotEmpty(cp) ||
+      !isNotEmpty(ville) ||
+      !isNotEmpty(telephone) ||
+      !isNotEmpty(email) ||
+      !isNotEmpty(adrLivraison)
+    ) {
+      showErrorAlert("Veuillez remplir tous les champs.");
+      return;
+    }
+
     try {
       const storedToken = await SecureStore.getItemAsync("token");
 
@@ -127,6 +150,8 @@ export default function Compte() {
           response.status,
         );
         return;
+      } else {
+        showErrorAlert("Vos informations ont bien été modifiée");
       }
 
       const jsonData = await response.json();
@@ -151,7 +176,7 @@ export default function Compte() {
         <Text style={GlobalStyles.titleLogin}> Écran d'inscription</Text>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            defaultValue={data[0].nom}
+            defaultValue={nom}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre Nom"
             placeholderTextColor="#003f5c"
@@ -162,7 +187,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            defaultValue={data[0].adresse}
+            defaultValue={adresse}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre Adresse"
             placeholderTextColor="#003f5c"
@@ -173,7 +198,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            defaultValue={data[0].adrLivraison}
+            defaultValue={adrLivraison}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre Adresse de livraison"
             placeholderTextColor="#003f5c"
@@ -184,7 +209,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            defaultValue={data[0].cp}
+            defaultValue={cp}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre code Postal"
             placeholderTextColor="#003f5c"
@@ -196,7 +221,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            defaultValue={data[0].ville}
+            defaultValue={ville}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre Ville"
             placeholderTextColor="#003f5c"
@@ -207,7 +232,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            defaultValue={data[0].telephone}
+            defaultValue={telephone}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre Telephone"
             placeholderTextColor="#003f5c"
@@ -219,7 +244,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            defaultValue={data[0].mail}
+            defaultValue={email}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre email"
             placeholderTextColor="#003f5c"
