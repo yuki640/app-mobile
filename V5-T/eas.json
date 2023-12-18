@@ -1,6 +1,6 @@
 {
   "build": {
-    "samuel": {
+    "android": {
       "android": {
         "buildType" : "apk"
       }
