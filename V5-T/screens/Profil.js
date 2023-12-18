@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   FlatList,
   ActivityIndicator,
   Text,
   View,
-  Button,
   TextInput,
   TouchableOpacity,
 } from "react-native";
@@ -13,8 +12,10 @@ import { GlobalStyles } from "../styles/AppStyles";
 import * as SecureStore from "expo-secure-store";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { AuthContext } from "../component/AuthContext";
 
 export default function Profil() {
+  const { signOut } = useContext(AuthContext);
   const [nom, setNom] = useState("");
   const [adresse, setAdresse] = useState("");
   const [cp, setCodePostal] = useState("");
@@ -69,6 +70,8 @@ export default function Profil() {
       if (storedToken) {
         await SecureStore.deleteItemAsync("token");
         console.log("Token supprimé avec succès");
+        signOut();
+        console.log("profil");
         navigation.reset({
           index: 0,
           routes: [{ name: "Home" }],

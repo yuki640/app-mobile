@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import * as SecureStore from "expo-secure-store";
 import { AntDesign } from "@expo/vector-icons"; // Importez les icônes nécessaires
 
 import Home from "../screens/Home";
@@ -13,6 +12,8 @@ import Profil from "../screens/Profil";
 import FicheProduit from "../screens/FicheProduit";
 import Panier from "../screens/Panier";
 import Register from "../screens/Register";
+import { AuthContext } from "./AuthContext";
+import * as SecureStore from "expo-secure-store";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -20,22 +21,20 @@ const Stack = createStackNavigator();
 let iconName;
 
 function AppNavigator() {
-  const [token, setToken] = useState(" ");
+  const { isLoggedIn, signIn } = useContext(AuthContext); // Use the AuthContexts
 
+  const RetrieveToken = async () => {
+    const storedToken = await SecureStore.getItemAsync("token");
+    if (storedToken) {
+      signIn();
+    }
+  };
   useEffect(() => {
-    const getToken = async () => {
-      const storedToken = await SecureStore.getItemAsync("token");
-      if (storedToken) {
-        setToken(storedToken);
-        console.log("Token récupéré AppNavigator:", storedToken);
-      } else {
-        console.log("Le token est setté a blanc : ");
-        setToken(" ");
-      }
-    };
-    getToken();
+    async function prepare() {
+      await RetrieveToken();
+    }
+    prepare();
   }, []);
-
   function ProduitsTous() {
     return (
       <Stack.Navigator initialRouteName={Produits}>
@@ -105,7 +104,6 @@ function AppNavigator() {
             headerTintColor: "blue", // Change la couleur des éléments de l'en-tête (titre, boutons)
           }}
         />
-
       </Stack.Navigator>
     );
   }
@@ -119,16 +117,15 @@ function AppNavigator() {
               iconName = "home";
             } else if (route.name === "Produits") {
               // icon de loupe pour la recherche
-              iconName = "search1"; // Remplacez par l'icône souhaitée
+              iconName = "search1";
             } else if (route.name === "Panier") {
-              iconName = "shoppingcart"; // Remplacez par l'icône souhaitée
+              iconName = "shoppingcart";
             } else if (route.name === "Connexion") {
-              iconName = "login"; // Remplacez par l'icône souhaitée
+              iconName = "login";
             } else if (route.name === "Mon Compte") {
-              iconName = "user"; // Remplacez par l'icône souhaitée
+              iconName = "user";
             }
 
-            // Retourne l'icône correspondante
             return <AntDesign name={iconName} size={size} color={color} />;
           },
         })}
@@ -136,10 +133,11 @@ function AppNavigator() {
         <Tab.Screen name="Home" component={HomeTous} />
         <Tab.Screen name="Produits" component={ProduitsTous} />
         <Tab.Screen name="Panier" component={Panier} />
-        {token.length === 1 && (
+        {isLoggedIn ? (
+          <Tab.Screen name="Mon Compte" component={VueCompte} />
+        ) : (
           <Tab.Screen name="Connexion" component={Connexion} />
         )}
-        {token.length > 1 && <Tab.Screen name="Mon Compte" component={VueCompte} />}
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
-  FlatList,
-  ActivityIndicator,
   Text,
   View,
-  Button,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GlobalStyles } from "../styles/AppStyles";
@@ -15,57 +13,80 @@ import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function Compte() {
+  const [data, setData] = useState([]);
   const [nom, setNom] = useState("");
   const [adresse, setAdresse] = useState("");
   const [cp, setCodePostal] = useState("");
   const [ville, setVille] = useState("");
   const [telephone, setTelephone] = useState("");
   const [email, setMail] = useState("");
-  const [motdepasse, setMotdepasse] = useState("");
+  const [emailActuel, setMailActuel] = useState("");
+  const [Oldmotdepasse, setOldMotdepasse] = useState("");
+  const [Newmotdepasse, setNewMotdepasse] = useState("");
+  const [codec, setCodec] = useState("");
   const [adrLivraison, setAdrLivraison] = useState("");
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation(); // L'objet de navigation
+  const showErrorAlert = (message) => {
+    alert(message);
+  };
+  const isNotEmpty = (value) => {
+    return value.trim() !== ""; // Vérifie que la chaîne après suppression des espaces n'est pas vide
+  };
 
-  // Fonction pour récupérer les données de l'API
+  useEffect(() => {
+    fetchDataApi(); // Charge les données depuis l'API
+  }, []); // Pas de dépendances
+
+  useEffect(() => {
+    if (data.length > 0) {
+      setNom(data[0].nom); // Mise à jour de l'état après le rendu initial
+      setAdresse(data[0].adresse);
+      setCodePostal(data[0].cp);
+      setVille(data[0].ville);
+      setTelephone(data[0].telephone);
+      setMail(data[0].mail);
+      setMailActuel(data[0].mail);
+      setCodec(data[0].codec);
+      setAdrLivraison(data[0].adrLivraison);
+    }
+  }, [data]);
+
   const fetchDataApi = async () => {
     try {
       const storedToken = await SecureStore.getItemAsync("token");
-      if (storedToken) {
-        console.log("Token récupéré :", storedToken);
-      }
 
-      console.log("Début de la récupération des données depuis l'API");
-      const newData = await fetch(
+      if (!storedToken) {
+        console.log("Le token n'a pas été trouvé.");
+        return;
+      }
+      const response = await fetch(
         `https://api.devroomservice.v70208.campus-centre.fr/lookprofil?token=${storedToken}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         },
       );
-      console.log("Données récupérées avec succès depuis l'API");
-      const jsonData = await newData.json();
 
-      //console.log("Données à stocker dans AsyncStorage : ", jsonData);
+      if (!response.ok) {
+        console.log(
+          "Erreur lors de la récupération des données :",
+          response.status,
+        );
+        return;
+      }
+
+      const jsonData = await response.json();
       await AsyncStorage.setItem("data-compte", JSON.stringify(jsonData));
-
-      console.log("Données stockées avec succès dans AsyncStorage");
-      // Met à jour l'état de data avec les nouvelles données
-      // console.log(
-      //   "Mise à jour de l'état de data avec les nouvelles données : ",
-      //   jsonData,
-      // );
       setData(jsonData);
-      setIsLoading(false); // Les données ont été chargées
     } catch (error) {
-      // console.error("Erreur lors de la récupération des données", error);
-      setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
+      console.error("Erreur lors de la récupération des données :", error);
     }
   };
-  // ...
+
   const removeToken = async () => {
     try {
       const storedToken = await SecureStore.getItemAsync("token");
+
       if (storedToken) {
         await SecureStore.deleteItemAsync("token");
         console.log("Token supprimé avec succès");
@@ -80,50 +101,108 @@ export default function Compte() {
       console.error("Erreur lors de la suppression du token :", error);
     }
   };
+
   const updateProfil = async () => {
+    // Vérification que les champs sont remplis et sans espaces
+    if (
+      !isNotEmpty(nom) ||
+      !isNotEmpty(adresse) ||
+      !isNotEmpty(cp) ||
+      !isNotEmpty(ville) ||
+      !isNotEmpty(telephone) ||
+      !isNotEmpty(email) ||
+      !isNotEmpty(adrLivraison)
+    ) {
+      showErrorAlert("Veuillez remplir tous les champs.");
+      return;
+    }
+
     try {
       const storedToken = await SecureStore.getItemAsync("token");
-      if (storedToken) {
-        console.log("Token récupéré :", storedToken);
+
+      if (!storedToken) {
+        console.log("Le token n'a pas été trouvé.");
+        return;
       }
 
-      console.log("Début de la récupération des données depuis l'API");
-      const newData = await fetch(
-        `https://api.devroomservice.v70208.campus-centre.fr/lookprofil?token=${storedToken}`,
+      const response = await fetch(
+        `https://api.devroomservice.v70208.campus-centre.fr/updateprofil`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            nom,
-            adresse,
-            cp,
-            ville,
-            telephone,
-            motdepasse,
+            nom: nom,
+            adresse: adresse,
+            cp: cp,
+            ville: ville,
+            telephone: telephone,
             mail: email,
-            adrLivraison,
+            mailActuel: emailActuel,
+            codec: codec,
+            adrLivraison: adrLivraison,
           }),
         },
       );
-      console.log("Données récupérées avec succès depuis l'API");
-      const jsonData = await newData.json();
 
-      console.log("Données stockées avec succès dans AsyncStorage");
+      if (!response.ok) {
+        console.log(
+          "Erreur lors de la mise à jour du profil :",
+          response.status,
+        );
+        return;
+      } else {
+        showErrorAlert("Vos informations ont bien été modifiée");
+      }
+
+      const jsonData = await response.json();
       setData(jsonData);
-      setIsLoading(false); // Les données ont été chargées
     } catch (error) {
-      // console.error("Erreur lors de la récupération des données", error);
-      setIsLoading(false); // Arrêter l'indicateur de chargement en cas d'erreur
+      console.error("Erreur lors de la mise à jour du profil :", error);
     }
   };
 
-  useEffect(() => {
-    fetchDataApi(); // Charge les données depuis l'API
-  }, []);
+  const updateMotDePasse = async () => {
+    // Vérification de la non-vacuité et non-espacement des champs
+    if (!isNotEmpty(Oldmotdepasse) || !isNotEmpty(Newmotdepasse)) {
+      showErrorAlert("Veuillez remplir tous les champs.");
+      return;
+    }
+    try {
+      const storedToken = await SecureStore.getItemAsync("token");
 
-  function renderProfiles({ item }) {
-    console.log("Données à afficher : ", item);
-    return (
+      if (!storedToken) {
+        console.log("Le token n'a pas été trouvé.");
+        return;
+      }
+
+      const response = await fetch(
+        `https://api.devroomservice.v70208.campus-centre.fr/updatemotdepasse`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            codec: codec,
+            oldMotDePasse: Oldmotdepasse,
+            newMotDePasse: Newmotdepasse,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        showErrorAlert(
+          "Erreur lors de la mise à jour du profil :",
+          response.status,
+        );
+      } else {
+        showErrorAlert("Vos informations ont bien été modifiée");
+      }
+    } catch (error) {
+      showErrorAlert("Erreur lors de la mise à jour du profil :", error);
+    }
+  };
+
+  return (
+    <ScrollView>
       <KeyboardAwareScrollView
         contentContainerStyle={GlobalStyles.containerLogin}
         extraScrollHeight={50}
@@ -133,7 +212,7 @@ export default function Compte() {
         <Text style={GlobalStyles.titleLogin}> Écran d'inscription</Text>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            value={item.nom}
+            defaultValue={nom}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre Nom"
             placeholderTextColor="#003f5c"
@@ -144,7 +223,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            value={item.adresse}
+            defaultValue={adresse}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre Adresse"
             placeholderTextColor="#003f5c"
@@ -155,7 +234,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            value={item.adrLivraison}
+            defaultValue={adrLivraison}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre Adresse de livraison"
             placeholderTextColor="#003f5c"
@@ -166,7 +245,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            value={item.cp}
+            defaultValue={cp}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre code Postal"
             placeholderTextColor="#003f5c"
@@ -178,7 +257,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            value={item.ville}
+            defaultValue={ville}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre Ville"
             placeholderTextColor="#003f5c"
@@ -189,7 +268,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            value={item.telephone}
+            defaultValue={telephone}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre Telephone"
             placeholderTextColor="#003f5c"
@@ -201,7 +280,7 @@ export default function Compte() {
         </View>
         <View style={GlobalStyles.inputView}>
           <TextInput
-            value={item.mail}
+            defaultValue={email}
             style={GlobalStyles.inputText}
             placeholder="Entrez votre email"
             placeholderTextColor="#003f5c"
@@ -211,11 +290,11 @@ export default function Compte() {
             maxLength={100}
           ></TextInput>
         </View>
-        <TouchableOpacity onPress={removeToken} style={GlobalStyles.loginBtn}>
-          <Text style={GlobalStyles.text}>Déconnexion </Text>
-        </TouchableOpacity>
         <TouchableOpacity onPress={updateProfil} style={GlobalStyles.loginBtn}>
           <Text style={GlobalStyles.text}>Modifier mes informations </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={removeToken} style={GlobalStyles.loginBtn}>
+          <Text style={GlobalStyles.text}>Déconnexion </Text>
         </TouchableOpacity>
         <View>
           <Text></Text>
@@ -226,7 +305,7 @@ export default function Compte() {
             placeholder="Entrez votre mot de passe actuel"
             placeholderTextColor="#003f5c"
             secureTextEntry={true}
-            onChangeText={(val) => setMotdepasse(val)}
+            onChangeText={(val) => setOldMotdepasse(val)}
             keyboardType="visible-password"
             returnKeyType="done"
             maxLength={70}
@@ -238,32 +317,19 @@ export default function Compte() {
             placeholder="Entrez votre nouveau mot de passe"
             placeholderTextColor="#003f5c"
             secureTextEntry={true}
-            onChangeText={(val) => setMotdepasse(val)}
+            onChangeText={(val) => setNewMotdepasse(val)}
             keyboardType="visible-password"
             returnKeyType="done"
             maxLength={70}
           ></TextInput>
         </View>
-        <TouchableOpacity onPress={updateProfil} style={GlobalStyles.loginBtn}>
+        <TouchableOpacity
+          onPress={updateMotDePasse}
+          style={GlobalStyles.loginBtn}
+        >
           <Text style={GlobalStyles.text}>Modifier mon mot de passe</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
-    );
-  }
-
-  return (
-    <View>
-      {isLoading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : data ? (
-        <FlatList
-          data={data}
-          renderItem={renderProfiles}
-          keyExtractor={(item) => item.codec}
-        />
-      ) : (
-        <Text>Aucune donnée disponible.</Text>
-      )}
-    </View>
+    </ScrollView>
   );
 }

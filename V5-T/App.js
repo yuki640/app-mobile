@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import * as Font from "expo-font";
 import { Inter_400Regular, Inter_600SemiBold } from "@expo-google-fonts/inter";
 import AppNavigator from "./component/AppNavigator";
+import { AuthProvider } from "./component/AuthContext";
 
 export default function App() {
   /* Laisse en place le splash screen pendant qu'on récupère les ressources nécessaires */
@@ -106,8 +107,10 @@ export default function App() {
   }
 
   return (
-    <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-      <AppNavigator />
-    </View>
+    <AuthProvider>
+      <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+        <AppNavigator />
+      </View>
+    </AuthProvider>
   );
 }

@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { TouchableOpacity, Text, TextInput, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { useNavigation } from "@react-navigation/native";
 import { GlobalStyles } from "../styles/AppStyles";
+import { AuthContext } from "../component/AuthContext";
 
 export default function Login() {
   const [email, setMail] = useState();
   const [motdepasse, setMotdepasse] = useState("");
   const navigation = useNavigation(); // Obtenez l'objet de navigation
+  const { signIn, isLoggedIn } = useContext(AuthContext);
 
   async function saveToken(key, value) {
     await SecureStore.setItemAsync(key, value);
@@ -52,6 +54,7 @@ export default function Login() {
         if (data.token) {
           // Stockez le token dans le SecureStorage
           await saveToken("token", data.token);
+          signIn();
           // //Redirection vers la page qu'on souhaite
           navigation.reset({
             index: 0,
