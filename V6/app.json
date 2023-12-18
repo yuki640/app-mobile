@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "app-mobile",
-    "slug": "app-mobile",
+    "slug": "gourmandise",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,21 +16,27 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.itscastoor.appmobile"
+      "adaptiveIcon": {
+        "foregroundImage": "./images/logo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "bundleIdentifier": "com.yuki640.appmobile"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./images/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.yuki640.appmobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "315112ed-c526-4101-a4c0-7314b3aeb7af"
+        "projectId": "9d71e49d-abb7-4b3b-902e-7b922835d4aa"
       }
-    }
+    },
+    "owner": "yuki640"
   }
 }

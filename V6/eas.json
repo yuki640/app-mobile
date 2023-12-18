@@ -1,16 +1,9 @@
 {
-  "cli": {
-    "version": ">= 5.9.2"
-  },
   "build": {
-    "preview": {
-      "ios": {
-        "simulator": true
+    "android": {
+      "android": {
+        "buildType" : "apk"
       }
-    },
-    "production": {}
-  },
-  "submit": {
-    "production": {}
+    }
   }
 }
