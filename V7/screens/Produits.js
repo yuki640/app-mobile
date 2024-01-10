@@ -19,7 +19,7 @@ export default function Produits() {
   const navigation = useNavigation();
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [produitType, setProduitType] = useState("Tous");
-  const [prevProduitType, setPrevProduitType] = useState("Tous");
+  const [prevProduitType, setPrevProduitType] = useState("");
 
   useEffect(() => {
     handleChoose();
@@ -174,12 +174,39 @@ export default function Produits() {
             keyExtractor={(item) => item.reference}
             style={{ marginTop: 20, height: 645 }}
             contentContainerStyle={{
-              paddingBottom: 10, // Ajoutez du padding pour que le dernier élément soit entièrement visible
+              paddingBottom: 10,
             }}
           />
         </View>
       ) : (
-        <Text>Aucun produit disponible à afficher.</Text>
+        <View style={{ alignItems: "center" }}>
+          <Pressable onPress={togglePicker}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                Choisir le type de produit
+              </Text>
+              <Text>{isPickerOpen ? " ▲" : " ▼"}</Text>
+            </View>
+          </Pressable>
+          {isPickerOpen && (
+            <Picker
+              mode="dropdown"
+              selectedValue={produitType}
+              onValueChange={(itemValue, itemIndex) => {
+                setProduitType(itemValue);
+                handleChoose();
+              }}
+              style={{
+                width: 400, // Ajustez la largeur selon vos besoins
+              }}
+            >
+              <Picker.Item label="Tous les produits" value="Tous" />
+              <Picker.Item label="Nouveautés" value="New" />
+              <Picker.Item label="Promotions" value="Promo" />
+            </Picker>
+          )}
+          <Text>Aucun produit disponible à afficher.</Text>
+        </View>
       )}
     </View>
   );

@@ -140,7 +140,7 @@ export default function Produits() {
     <View>
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
-      ) : data && data.length > 0 ? (
+      ) : data ? (
         <View style={{ alignItems: "center" }}>
           <Pressable onPress={togglePicker}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -179,7 +179,9 @@ export default function Produits() {
           />
         </View>
       ) : (
-        <Text>Aucun produit disponible à afficher.</Text>
+        <View>
+          <Text>Aucun produit disponible à afficher.</Text>
+        </View>
       )}
     </View>
   );
