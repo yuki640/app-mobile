@@ -229,8 +229,8 @@ export default function Produits({ route }) {
                 setData([]);
               }}
             >
-              <Text style={StyleFiche.buttonText}>Vider le panier</Text>
-              <FontAwesome5 name="cart-plus" size={20} color="#ffffff" />
+              <Text style={StyleFiche.buttonText}>⁡⁢⁢Vider tous le panier⁡ </Text>
+              <FontAwesome5 name="trash" size={15} color="#ffffff" />
             </TouchableOpacity>
           )}
 

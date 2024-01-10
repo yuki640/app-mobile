@@ -232,7 +232,7 @@ export const StyleFiche = StyleSheet.create({
   addToCartButton: {
     backgroundColor: "#3498db",
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 20,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -242,12 +242,14 @@ export const StyleFiche = StyleSheet.create({
   buttonText: {
     color: "#ffffff",
   },
+
   // Style pour le conteneur des boutons
+  
   buttonContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
-    marginBottom: 30,
+    marginBottom: 10,
   },
   // Style pour le texte de la quantité
   quantityText: {

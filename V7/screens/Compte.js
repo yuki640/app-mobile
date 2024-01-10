@@ -48,7 +48,7 @@ function CompteScreen() {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="light-content"/>
       <View style={styles.header}>
         <Text style={styles.headerText}>Bonjour, Samuel</Text>
       </View>

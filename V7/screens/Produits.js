@@ -84,7 +84,6 @@ export default function Produits() {
         // Vérifier si le tableau parsedData est vide
         if (Array.isArray(parsedData) && parsedData.length === 0) {
           console.log("Aucune donnée récupérée depuis le stockage local");
-
           // Réinitialiser l'état data à un tableau vide
           setData([]);
           return; // Sortir de la fonction sans mettre à jour l'état
