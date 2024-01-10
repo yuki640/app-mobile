@@ -54,6 +54,7 @@ export default function Home() {
         const nextIndex = (prevIndex + 1) % promotionsData.length;
         flatListRef.current?.scrollToIndex({
           index: nextIndex,
+          //TODO a faire plus tard , WARNING LISTENERS
           animated: true,
         });
         return nextIndex;
