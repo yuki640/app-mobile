@@ -243,6 +243,9 @@ export default function Produits({ route }) {
                 data={data}
                 renderItem={renderProfiles}
                 keyExtractor={(item) => item.reference.toString()}
+                contentContainerStyle={{
+                  paddingBottom: 50,
+                }}
               />
             ) : (
               <Text>Aucune donnée disponible.</Text>

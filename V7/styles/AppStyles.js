@@ -168,7 +168,7 @@ export const GlobalStyles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 18,
-    padding: 11,
+    padding: 10,
     justifyContent: "center",
   },
   // Style pour le tiroir de navigation
@@ -210,11 +210,11 @@ export const StyleFiche = StyleSheet.create({
   },
   // Style pour l'image du produit
   productImage: {
-    width: 250,
+    width: 240,
     alignSelf: "center",
     height: 200,
     marginBottom: 10,
-    borderRadius: 20,
+    borderRadius: 10,
   },
   // Style pour le conteneur de la quantité
   quantityContainer: {
